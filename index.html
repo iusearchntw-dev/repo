@@ -1,0 +1,2299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE ULTIMATE COUNTER-STRIKE EUROPEAN SERVER BIBLE</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas Neue&family=Russo+One&family=Share+Tech+Mono&family=Permanent+Marker&family=Black+Ops+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange: #ff6a00;
+  --yellow: #ffe600;
+  --red: #ff0000;
+  --green: #00ff41;
+  --blue: #00cfff;
+  --dark: #060608;
+  --mid: #0f0f14;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--dark);
+  color: #e8e8e8;
+  font-family: 'Share Tech Mono', monospace;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* SCANLINES OVERLAY */
+body::after {
+  content:'';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.18) 3px, rgba(0,0,0,0.18) 4px);
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* CUSTOM SCROLLBAR */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: var(--orange); }
+
+/* ===== HERO ===== */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(255,106,0,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(0,207,255,0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(255,0,0,0.08) 0%, transparent 50%),
+    var(--dark);
+  text-align: center;
+  padding: 40px 20px;
+  overflow: hidden;
+}
+
+/* HERO GRID BG */
+#hero::before {
+  content:'';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,106,0,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,106,0,0.07) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridPulse 4s ease-in-out infinite;
+}
+
+@keyframes gridPulse {
+  0%,100% { opacity:0.5; }
+  50% { opacity:1; }
+}
+
+.skull-row {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  letter-spacing: 0.3em;
+  animation: flickerSkull 2s infinite;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes flickerSkull {
+  0%,19%,21%,23%,25%,54%,56%,100% { opacity:1; }
+  20%,24%,55% { opacity:0.3; }
+}
+
+.hero-eyebrow {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(0.8rem, 2vw, 1.1rem);
+  letter-spacing: 0.6em;
+  color: var(--orange);
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+  margin-bottom: 16px;
+  animation: fadeSlideDown 1s ease both;
+}
+
+@keyframes fadeSlideDown {
+  from { opacity:0; transform: translateY(-20px); }
+  to { opacity:1; transform: translateY(0); }
+}
+
+.hero-title {
+  font-family: 'Black Ops One', sans-serif;
+  font-size: clamp(2.8rem, 10vw, 8rem);
+  line-height: 0.9;
+  color: #fff;
+  text-shadow:
+    0 0 20px rgba(255,106,0,0.8),
+    0 0 60px rgba(255,106,0,0.4),
+    0 0 120px rgba(255,106,0,0.2),
+    4px 4px 0 rgba(255,0,0,0.5);
+  position: relative;
+  z-index: 2;
+  animation: titleSlam 0.6s cubic-bezier(0.25,0.46,0.45,0.94) both;
+  animation-delay: 0.2s;
+}
+
+@keyframes titleSlam {
+  from { opacity:0; transform: scale(1.4); }
+  to { opacity:1; transform: scale(1); }
+}
+
+.hero-subtitle {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(1rem, 3vw, 2rem);
+  color: var(--yellow);
+  letter-spacing: 0.15em;
+  margin-top: 12px;
+  position: relative;
+  z-index: 2;
+  animation: fadeSlideDown 1s ease both;
+  animation-delay: 0.5s;
+}
+
+.edition-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin: 24px 0;
+  position: relative;
+  z-index: 2;
+  animation: fadeSlideDown 1s ease both;
+  animation-delay: 0.7s;
+}
+
+.badge {
+  padding: 6px 16px;
+  font-family: 'Russo One', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  border: 2px solid;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+.badge::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background: currentColor;
+  opacity: 0.08;
+}
+.badge:hover { transform: scale(1.08) rotate(-1deg); }
+
+.badge-csgo   { color: var(--orange); border-color: var(--orange); }
+.badge-cs2    { color: var(--blue);   border-color: var(--blue); }
+.badge-tours  { color: var(--yellow); border-color: var(--yellow); }
+.badge-nexon  { color: #ff00ff;       border-color: #ff00ff; }
+.badge-16     { color: var(--green);  border-color: var(--green); }
+
+.warning-banner {
+  background: var(--yellow);
+  padding: 16px 40px;
+  font-family: 'Black Ops One', sans-serif;
+  font-size: clamp(0.85rem, 2.5vw, 1.2rem);
+  color: #000;
+  letter-spacing: 0.2em;
+  text-align: center;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  margin: 20px 0;
+  box-shadow:
+    0 0 20px rgba(255,230,0,0.9),
+    0 0 50px rgba(255,230,0,0.5),
+    0 0 100px rgba(255,230,0,0.2);
+  animation: warningPulse 1.2s ease-in-out infinite;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+}
+@keyframes warningPulse {
+  0%,100% { box-shadow: 0 0 20px rgba(255,230,0,0.9), 0 0 50px rgba(255,230,0,0.5), 0 0 100px rgba(255,230,0,0.2); }
+  50% { box-shadow: 0 0 30px rgba(255,230,0,1), 0 0 80px rgba(255,230,0,0.8), 0 0 140px rgba(255,230,0,0.4); }
+}
+
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  color: #444;
+  letter-spacing: 0.3em;
+  animation: bounce 2s infinite;
+  z-index: 2;
+}
+@keyframes bounce {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-8px); }
+}
+
+/* ===== NAV ===== */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(6,6,8,0.95);
+  border-bottom: 2px solid var(--orange);
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  box-shadow: 0 4px 30px rgba(255,106,0,0.3);
+  backdrop-filter: blur(10px);
+}
+
+nav a {
+  color: #aaa;
+  text-decoration: none;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  padding: 14px 20px;
+  border-right: 1px solid #1a1a1a;
+  white-space: nowrap;
+  transition: all 0.2s;
+  position: relative;
+}
+nav a::after {
+  content:'';
+  position:absolute;
+  bottom:0; left:0; right:0;
+  height:2px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transition: transform 0.2s;
+}
+nav a:hover { color: var(--orange); background: rgba(255,106,0,0.05); }
+nav a:hover::after { transform: scaleX(1); }
+
+/* ===== SECTIONS ===== */
+section {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 80px 24px;
+  position: relative;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.section-number {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 5rem;
+  color: rgba(255,106,0,0.15);
+  line-height: 1;
+  user-select: none;
+}
+
+.section-title {
+  font-family: 'Black Ops One', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  color: #fff;
+  text-shadow: 0 0 20px rgba(255,106,0,0.3);
+  line-height: 1;
+}
+
+.section-subtitle {
+  font-size: 0.75rem;
+  color: var(--orange);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* DIVIDERS */
+.divider {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--orange), var(--yellow), var(--orange), transparent);
+  margin: 60px 0;
+  position: relative;
+}
+.divider::after {
+  content: '▶ ▶ ▶';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--dark);
+  padding: 0 16px;
+  color: var(--orange);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+}
+
+/* CARDS */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: var(--mid);
+  border: 1px solid #1e1e26;
+  border-top: 3px solid var(--orange);
+  padding: 24px;
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+}
+.card::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background: linear-gradient(135deg, rgba(255,106,0,0.04) 0%, transparent 60%);
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(255,106,0,0.2);
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.card h3 {
+  font-family: 'Russo One', sans-serif;
+  font-size: 1.1rem;
+  color: var(--orange);
+  margin-bottom: 10px;
+  letter-spacing: 0.05em;
+}
+
+.card p, .card li {
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: #aaa;
+}
+
+.card ul { list-style: none; }
+.card ul li::before { content: '► '; color: var(--orange); font-size: 0.7rem; }
+
+/* RUSSIAN TABLE */
+.ru-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.ru-table thead tr {
+  background: rgba(255,106,0,0.15);
+}
+.ru-table th {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.15em;
+  color: var(--orange);
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 2px solid var(--orange);
+}
+.ru-table td {
+  padding: 10px 16px;
+  border-bottom: 1px solid #161620;
+  vertical-align: middle;
+  transition: background 0.15s;
+}
+.ru-table tr:hover td { background: rgba(255,106,0,0.05); }
+.ru-word { color: #fff; font-size: 1rem; }
+.ru-pron { color: #666; font-style: italic; }
+.ru-en { color: var(--orange); }
+.ru-usage { color: #555; font-size: 0.75rem; }
+
+/* TIER LIST */
+.tier-list { display: flex; flex-direction: column; gap: 8px; }
+.tier-row {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  border: 1px solid #1e1e26;
+  overflow: hidden;
+}
+.tier-label {
+  width: 60px;
+  min-width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Black Ops One', sans-serif;
+  font-size: 1.8rem;
+}
+.tier-s { background: #ff4444; color:#fff; }
+.tier-a { background: #ff8800; color:#000; }
+.tier-b { background: #cccc00; color:#000; }
+.tier-c { background: #44aa44; color:#fff; }
+.tier-d { background: #4444cc; color:#fff; }
+.tier-f { background: #44; color:#aaa; }
+.tier-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px;
+  align-items: center;
+  background: var(--mid);
+  flex: 1;
+}
+.tier-item {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  font-family: 'Russo One', sans-serif;
+  letter-spacing: 0.05em;
+  transition: all 0.15s;
+}
+.tier-item:hover { background: rgba(255,106,0,0.15); border-color: var(--orange); transform: scale(1.05); }
+
+/* SERVER PING DISPLAY */
+.ping-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+.ping-card {
+  background: var(--mid);
+  border: 1px solid #1e1e26;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: all 0.2s;
+}
+.ping-card:hover { border-color: var(--green); transform: translateX(4px); }
+.ping-flag { font-size: 2rem; }
+.ping-info { flex:1; }
+.ping-country { font-family: 'Russo One', sans-serif; font-size: 0.9rem; color: #ddd; }
+.ping-value { font-size: 0.75rem; margin-top: 2px; }
+.ping-good { color: var(--green); }
+.ping-ok { color: var(--yellow); }
+.ping-bad { color: var(--red); }
+.ping-bar {
+  height: 3px;
+  background: #1a1a1a;
+  margin-top: 6px;
+  overflow: hidden;
+  border-radius: 2px;
+}
+.ping-fill { height: 100%; border-radius: 2px; animation: pingLoad 1.5s ease both; }
+@keyframes pingLoad { from { width:0; } }
+
+/* CROSSHAIR SHOWCASE */
+.crosshair-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+}
+.crosshair-card {
+  background: #0a1a0a;
+  border: 1px solid #1e2e1e;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.crosshair-card:hover { border-color: var(--green); box-shadow: 0 0 20px rgba(0,255,65,0.1); }
+.crosshair-canvas {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.ch-label {
+  font-size: 0.75rem;
+  color: var(--green);
+  font-family: 'Russo One', sans-serif;
+  letter-spacing: 0.05em;
+}
+.ch-desc { font-size: 0.65rem; color: #555; margin-top: 4px; }
+
+/* BOOMBOX SECTION */
+.boombox-wrapper {
+  background: linear-gradient(135deg, #0a0010, #100a00);
+  border: 2px solid #2a1a00;
+  padding: 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.boombox-wrapper::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background: radial-gradient(ellipse at center, rgba(255,106,0,0.08) 0%, transparent 70%);
+  animation: breathe 3s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%,100% { transform: scale(1); opacity:1; }
+  50% { transform: scale(1.1); opacity:0.6; }
+}
+
+.boombox-title {
+  font-family: 'Permanent Marker', cursive;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--yellow);
+  text-shadow: 3px 3px 0 var(--orange), 6px 6px 0 rgba(255,0,0,0.3);
+  position: relative;
+  z-index: 1;
+  margin-bottom: 20px;
+}
+
+/* ECONOMY TABLE */
+.eco-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+.eco-table th {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  padding: 12px 14px;
+  text-align: left;
+  background: rgba(255,230,0,0.1);
+  color: var(--yellow);
+  border-bottom: 2px solid var(--yellow);
+}
+.eco-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #131318;
+  color: #ccc;
+}
+.eco-table tr:hover td { background: rgba(255,230,0,0.04); }
+.price { color: var(--yellow); font-family: 'Russo One', sans-serif; }
+.rec { color: var(--green); }
+.eco { color: #f80; }
+.force { color: var(--red); }
+
+/* TIPS BOX */
+.tip-box {
+  border-left: 4px solid var(--orange);
+  background: rgba(255,106,0,0.05);
+  padding: 16px 20px;
+  margin: 16px 0;
+  position: relative;
+}
+.tip-box::before {
+  content: '💡 PRO TIP';
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--orange);
+  display: block;
+  margin-bottom: 6px;
+}
+.tip-box p { font-size: 0.82rem; color: #bbb; line-height: 1.6; }
+
+.danger-box {
+  border-left: 4px solid var(--red);
+  background: rgba(255,0,0,0.05);
+  padding: 16px 20px;
+  margin: 16px 0;
+}
+.danger-box::before {
+  content: '⚠️ WARNING';
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--red);
+  display: block;
+  margin-bottom: 6px;
+}
+.danger-box p { font-size: 0.82rem; color: #bbb; line-height: 1.6; }
+
+/* PROGRESS BARS */
+.skill-bar { margin: 12px 0; }
+.skill-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  margin-bottom: 5px;
+  color: #aaa;
+}
+.skill-bar-label span:last-child { color: var(--orange); font-family: 'Russo One', sans-serif; }
+.skill-bar-track {
+  height: 8px;
+  background: #111;
+  border: 1px solid #222;
+  overflow: hidden;
+}
+.skill-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--orange), var(--yellow));
+  animation: fillBar 1.5s ease both;
+  box-shadow: 0 0 8px rgba(255,106,0,0.5);
+}
+@keyframes fillBar { from { width: 0 !important; } }
+
+/* EDITION SECTION */
+.edition-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+.edition-card {
+  padding: 24px;
+  border: 2px solid;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s;
+}
+.edition-card::after {
+  content: attr(data-year);
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 5rem;
+  opacity: 0.06;
+  line-height: 1;
+  pointer-events: none;
+}
+.edition-card:hover { transform: rotate(-1deg) scale(1.02); }
+.edition-card h3 {
+  font-family: 'Black Ops One', sans-serif;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+.edition-card p { font-size: 0.8rem; line-height: 1.7; color: #aaa; }
+.ed-16     { border-color: var(--green); background: rgba(0,255,65,0.05); }
+.ed-16 h3 { color: var(--green); }
+.ed-tours  { border-color: var(--yellow); background: rgba(255,230,0,0.05); }
+.ed-tours h3 { color: var(--yellow); }
+.ed-csgo   { border-color: #f80; background: rgba(255,136,0,0.05); }
+.ed-csgo h3 { color: #f80; }
+.ed-cs2    { border-color: #00cfff; background: rgba(0,207,255,0.05); }
+.ed-cs2 h3 { color: #00cfff; }
+.ed-nexon  { border-color: #ff00ff; background: rgba(255,0,255,0.05); }
+.ed-nexon h3 { color: #ff00ff; }
+
+/* GLITCH TEXT */
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+.glitch::before, .glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+}
+.glitch::before {
+  color: var(--red);
+  clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+  transform: translateX(-3px);
+  animation: glitch1 3s infinite;
+}
+.glitch::after {
+  color: var(--blue);
+  clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+  transform: translateX(3px);
+  animation: glitch2 3s infinite;
+}
+@keyframes glitch1 {
+  0%,90%,100% { transform: translateX(-3px); }
+  92% { transform: translateX(3px); }
+  94% { transform: translateX(-1px); }
+}
+@keyframes glitch2 {
+  0%,90%,100% { transform: translateX(3px); }
+  92% { transform: translateX(-3px); }
+  94% { transform: translateX(1px); }
+}
+
+/* FOOTER */
+footer {
+  background: #000;
+  border-top: 3px solid var(--orange);
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 0.75rem;
+  color: #333;
+  letter-spacing: 0.2em;
+}
+footer .footer-title {
+  font-family: 'Black Ops One', sans-serif;
+  font-size: 1.5rem;
+  color: var(--orange);
+  margin-bottom: 12px;
+}
+
+/* MARQUEE */
+.marquee-wrap {
+  background: var(--orange);
+  padding: 8px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.marquee-inner {
+  display: inline-block;
+  animation: marqueeScroll 20s linear infinite;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.2em;
+  color: #000;
+}
+@keyframes marqueeScroll {
+  from { transform: translateX(100vw); }
+  to { transform: translateX(-100%); }
+}
+
+/* HEADSHOT COUNTER */
+.counter-box {
+  display: inline-block;
+  background: #000;
+  border: 2px solid var(--red);
+  padding: 8px 20px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  color: var(--red);
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 10px rgba(255,0,0,0.5);
+  margin: 0 8px;
+  animation: countGlow 1s ease-in-out infinite alternate;
+}
+@keyframes countGlow {
+  from { box-shadow: 0 0 5px rgba(255,0,0,0.3); }
+  to { box-shadow: 0 0 20px rgba(255,0,0,0.7); }
+}
+
+/* FULLWIDTH BG SECTIONS */
+.bg-section {
+  width: 100%;
+  padding: 0;
+  background: var(--dark);
+}
+.bg-section.accent {
+  background: linear-gradient(180deg, var(--dark) 0%, #0a0800 50%, var(--dark) 100%);
+}
+
+/* RADIO BUTTONS */
+.radio-group { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; }
+.radio-btn {
+  padding: 8px 18px;
+  border: 1px solid #333;
+  background: transparent;
+  color: #888;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.05em;
+}
+.radio-btn:hover, .radio-btn.active {
+  border-color: var(--orange);
+  color: var(--orange);
+  background: rgba(255,106,0,0.08);
+}
+
+/* RANK PYRAMID */
+.ranks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+.rank-card {
+  background: var(--mid);
+  border: 1px solid #1e1e26;
+  padding: 14px 10px;
+  text-align: center;
+  transition: all 0.2s;
+  position: relative;
+}
+.rank-card:hover { transform: translateY(-3px); border-color: var(--orange); }
+.rank-icon { font-size: 2rem; margin-bottom: 6px; }
+.rank-name { font-family: 'Russo One', sans-serif; font-size: 0.75rem; color: #ddd; }
+.rank-pct { font-size: 0.65rem; color: #555; margin-top: 3px; }
+
+/* ANIMATED MUZZLE FLASH */
+@keyframes flash {
+  0%,100% { opacity:0; }
+  50% { opacity:1; }
+}
+
+.live-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+  margin-right: 6px;
+  animation: flash 1s infinite;
+}
+
+/* QUOTE BLOCK */
+.quote-block {
+  border-left: 4px solid var(--yellow);
+  padding: 20px 24px;
+  background: rgba(255,230,0,0.03);
+  margin: 24px 0;
+  font-family: 'Permanent Marker', cursive;
+  font-size: 1.3rem;
+  color: var(--yellow);
+  line-height: 1.4;
+}
+.quote-block cite {
+  display: block;
+  margin-top: 8px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  color: #555;
+  font-style: normal;
+}
+</style>
+</head>
+<body>
+
+<!-- ===== DISCLAIMER MODAL ===== -->
+<div id="disclaimer-overlay" style="
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+">
+  <!-- Scanlines on overlay too -->
+  <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.25) 3px,rgba(0,0,0,0.25) 4px);pointer-events:none;"></div>
+  <!-- Orange grid -->
+  <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,106,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,106,0,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;animation:gridPulse 4s ease-in-out infinite;"></div>
+
+  <div style="
+    max-width: 640px;
+    width: 100%;
+    border: 2px solid var(--orange);
+    background: #06060a;
+    box-shadow: 0 0 60px rgba(255,106,0,0.3), 0 0 120px rgba(255,106,0,0.1), inset 0 0 40px rgba(0,0,0,0.8);
+    position: relative;
+    z-index: 1;
+    animation: titleSlam 0.5s cubic-bezier(0.25,0.46,0.45,0.94) both;
+  ">
+
+    <!-- Top bar -->
+    <div style="background:var(--orange);padding:10px 20px;display:flex;align-items:center;gap:10px;">
+      <span style="font-family:'Black Ops One',sans-serif;font-size:1rem;color:#000;letter-spacing:0.15em;">⚠ DISCLAIMER — READ BEFORE ENTRY</span>
+      <span style="margin-left:auto;font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:#000;opacity:0.6;">v∞.0.0</span>
+    </div>
+
+    <!-- Gabe header -->
+    <div style="text-align:center;padding:28px 28px 0;">
+      <div style="position:relative;display:inline-block;margin-bottom:12px;">
+        <img src="https://imageio.forbes.com/specials-images/imageserve/66f5b8e78e94b86c7870709f/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds"
+          alt="Gabe Newell"
+          style="width:120px;height:120px;object-fit:cover;object-position:center top;border-radius:50%;border:3px solid var(--orange);box-shadow:0 0 30px rgba(255,106,0,0.5);"
+        >
+        <div style="position:absolute;bottom:-4px;right:-4px;background:var(--orange);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;">👑</div>
+      </div>
+      <div style="font-family:'Bebas Neue',sans-serif;color:var(--orange);letter-spacing:0.2em;font-size:0.8rem;margin-bottom:6px;">IN GABE WE TRUST</div>
+      <div style="font-family:'Black Ops One',sans-serif;font-size:clamp(1.6rem,5vw,2.8rem);color:#fff;text-shadow:0 0 20px rgba(255,106,0,0.8),4px 4px 0 rgba(255,0,0,0.4);line-height:1;">DISCLAIMER</div>
+      <div style="font-family:'Bebas Neue',sans-serif;color:var(--orange);letter-spacing:0.3em;font-size:0.9rem;margin-top:4px;">COUNTER-STRIKE EU SERVER BIBLE</div>
+    </div>
+
+    <!-- Body -->
+    <div style="padding:24px 28px;font-family:'Share Tech Mono',monospace;font-size:0.78rem;color:#aaa;line-height:1.8;">
+
+      <div style="border-left:3px solid var(--red);background:rgba(255,0,0,0.05);padding:12px 16px;margin-bottom:20px;">
+        <span style="font-family:'Bebas Neue',sans-serif;color:var(--red);letter-spacing:0.15em;font-size:0.85rem;display:block;margin-bottom:4px;">⚠ HEADS UP</span>
+        This is a fan-made guide built for fun. It is not sponsored, endorsed, or approved by anyone with a legal department. It's just some HTML, CSS, and strong opinions about the AK-47.
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
+
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="color:var(--orange);font-size:1rem;margin-top:1px;">01</span>
+          <span>This site has <strong style="color:#ddd">no affiliation with Valve Corporation, any game developer, publisher, or esports organization.</strong> All game names, maps, and mechanics belong to their respective owners — including Lord Gabe. We're just fans.</span>
+        </div>
+
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="color:var(--orange);font-size:1rem;margin-top:1px;">02</span>
+          <span>The <strong style="color:#ddd">tier lists, rankings, and opinions</strong> on this site are entirely subjective. If your favourite weapon is in D-tier, that is between you and the weapon. We cannot help you.</span>
+        </div>
+
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="color:var(--orange);font-size:1rem;margin-top:1px;">03</span>
+          <span>The <strong style="color:#ddd">AI Practice Chat</strong> runs on the Anthropic API (Claude). "Vanya_RU" is a fictional character. Conversation may be used to improve AI models per Anthropic's standard usage policy.</span>
+        </div>
+
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="color:var(--orange);font-size:1rem;margin-top:1px;">04</span>
+          <span>The <strong style="color:#ddd">Russian vocabulary</strong> on this site is provided in good faith for communication purposes. We are not a language school. Do not use this to pass a Russian exam.</span>
+        </div>
+
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="color:var(--orange);font-size:1rem;margin-top:1px;">05</span>
+          <span>We accept <strong style="color:#ddd">no responsibility</strong> for lost ranked matches, broken keyboards, or any incidents occurring on EU servers after midnight CET. You were warned.</span>
+        </div>
+
+      </div>
+
+      <!-- Checkbox -->
+      <label style="display:flex;align-items:center;gap:12px;cursor:pointer;padding:14px;border:1px solid #222;background:rgba(255,106,0,0.03);transition:all 0.2s;user-select:none;" id="agree-label" onmouseover="this.style.borderColor='var(--orange)'" onmouseout="this.style.borderColor='#222'">
+        <input type="checkbox" id="agree-check" onchange="toggleEnterBtn()" style="width:18px;height:18px;accent-color:var(--orange);cursor:pointer;flex-shrink:0;">
+        <span>I understand this is a fan site. I have read and accepted the above. I am ready to become a better EU server player.</span>
+      </label>
+
+    </div>
+
+    <!-- Footer / Enter button -->
+    <div style="padding:0 28px 28px;display:flex;flex-direction:column;gap:12px;align-items:center;">
+      <button id="enter-btn" disabled onclick="enterSite()" style="
+        width:100%;
+        padding:16px;
+        font-family:'Black Ops One',sans-serif;
+        font-size:1.3rem;
+        letter-spacing:0.15em;
+        border:2px solid #333;
+        background:#111;
+        color:#444;
+        cursor:not-allowed;
+        transition:all 0.3s;
+      ">ENTER THE BIBLE ►</button>
+      <span style="font-size:0.65rem;color:#333;letter-spacing:0.15em;">CHECK THE BOX ABOVE TO UNLOCK</span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function toggleEnterBtn() {
+  const btn = document.getElementById('enter-btn');
+  const checked = document.getElementById('agree-check').checked;
+  if (checked) {
+    btn.disabled = false;
+    btn.style.background = 'var(--orange)';
+    btn.style.color = '#000';
+    btn.style.borderColor = 'var(--orange)';
+    btn.style.cursor = 'pointer';
+    btn.style.boxShadow = '0 0 30px rgba(255,106,0,0.5)';
+    btn.onmouseover = () => { btn.style.background='var(--yellow)'; btn.style.boxShadow='0 0 40px rgba(255,230,0,0.6)'; };
+    btn.onmouseout = () => { btn.style.background='var(--orange)'; btn.style.boxShadow='0 0 30px rgba(255,106,0,0.5)'; };
+  } else {
+    btn.disabled = true;
+    btn.style.background = '#111';
+    btn.style.color = '#444';
+    btn.style.borderColor = '#333';
+    btn.style.cursor = 'not-allowed';
+    btn.style.boxShadow = 'none';
+    btn.onmouseover = null;
+    btn.onmouseout = null;
+  }
+}
+
+function enterSite() {
+  const overlay = document.getElementById('disclaimer-overlay');
+  overlay.style.transition = 'opacity 0.5s ease';
+  overlay.style.opacity = '0';
+  setTimeout(() => {
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }, 500);
+}
+
+// Lock scroll while disclaimer is showing
+document.body.style.overflow = 'hidden';
+</script>
+
+<!-- MARQUEE TOP -->
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    💥 HEADSHOT &nbsp;&nbsp;&nbsp; 💣 BOMB PLANTED &nbsp;&nbsp;&nbsp; 🔥 ACE &nbsp;&nbsp;&nbsp; ⚡ KNIFE KILL &nbsp;&nbsp;&nbsp; 🌍 EUROPEAN SERVERS ONLY &nbsp;&nbsp;&nbsp; 🇷🇺 ПОНЯЛ ПОНЯЛ &nbsp;&nbsp;&nbsp; 🐻 ДАВАЙ ДАВАЙ &nbsp;&nbsp;&nbsp; 💰 FULL BUY &nbsp;&nbsp;&nbsp; 📡 14MS PING &nbsp;&nbsp;&nbsp; 🎯 РЭШ Б &nbsp;&nbsp;&nbsp; 🔫 ТАЩИТЬ &nbsp;&nbsp;&nbsp; 🏆 КРАСИВО &nbsp;&nbsp;&nbsp; 💥 HEADSHOT &nbsp;&nbsp;&nbsp; 💣 BOMB PLANTED &nbsp;&nbsp;&nbsp; 🔥 ACE &nbsp;&nbsp;&nbsp; ⚡ KNIFE KILL &nbsp;&nbsp;&nbsp; 🌍 EUROPEAN SERVERS ONLY &nbsp;&nbsp;&nbsp; 🇷🇺 ПОНЯЛ ПОНЯЛ &nbsp;&nbsp;&nbsp;
+  </div>
+</div>
+
+<!-- ===== HERO ===== -->
+<div id="hero">
+  <div class="skull-row">💀 ☠️ 💀</div>
+  <div class="hero-eyebrow">★ The One True Sacred Text ★</div>
+  <h1 class="hero-title glitch" data-text="COUNTER-STRIKE">COUNTER-STRIKE</h1>
+  <div class="hero-subtitle">THE ULTIMATE EUROPEAN SERVER SURVIVAL BIBLE</div>
+  <div class="edition-badges">
+    <span class="badge badge-csgo">CS:GO</span>
+    <span class="badge badge-cs2">CS2</span>
+    <span class="badge badge-tours">CS: Condition Zero / Source / Tours</span>
+    <span class="badge badge-nexon">CS: Nexon Studio</span>
+    <span class="badge badge-16">Counter-Strike 1.6</span>
+  </div>
+  <div class="warning-banner">⚠️ WARNING: THIS GUIDE CONTAINS EXTREME AMOUNTS OF INFORMATION. READ AT YOUR OWN RISK. ⚠️</div>
+  <div style="position:relative;z-index:2;font-size:0.75rem;color:#444;letter-spacing:0.2em;text-align:center;line-height:2;">
+    <span class="live-dot"></span> LAST UPDATED: ALWAYS &nbsp;|&nbsp; VERSION: ∞ &nbsp;|&nbsp; SERVERS: EU ONLY &nbsp;|&nbsp; PING: NOT YOUR FAULT
+  </div>
+  <div class="hero-scroll-hint">▼ SCROLL DOWN TO BECOME A GOD ▼</div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#editions">📦 Editions</a>
+  <a href="#eu-servers">🌍 EU Servers</a>
+  <a href="#russian">🇷🇺 Russian</a>
+  <a href="#ru-practice">🎙️ Practice RU</a>
+  <a href="#economy">💰 Economy</a>
+  <a href="#weapons">🔫 Weapons</a>
+  <a href="#crosshairs">🎯 Crosshairs</a>
+  <a href="#ranks">🏆 Ranks</a>
+  <a href="#callouts">📍 Callouts</a>
+  <a href="#tips">💡 Tips</a>
+</nav>
+
+<!-- ===== SECTION 1: EDITIONS ===== -->
+<div class="bg-section accent" id="editions">
+<section>
+  <div class="section-header">
+    <div class="section-number">01</div>
+    <div>
+      <div class="section-title">THE SACRED EDITIONS</div>
+      <div class="section-subtitle">Every version — ranked, explained, & judged</div>
+    </div>
+  </div>
+
+  <div class="edition-cards">
+    <div class="edition-card ed-16" data-year="2000">
+      <h3>Counter-Strike 1.6</h3>
+      <p>The original. The legend. Runs on a potato from 2001. Still has active servers in Eastern Europe. If you can master 1.6, you can master anything. 128 tick was never needed because the gameplay was already perfect. The movement, the de_dust2, the AWP one-taps that changed childhoods.</p>
+      <div class="tip-box"><p>Max fps: <strong>99</strong>. Use <code>fps_max 99</code> in console. Anything higher and your bunny hops get weird.</p></div>
+    </div>
+    <div class="edition-card ed-tours" data-year="2004">
+      <h3>CS: Condition Zero / Source</h3>
+      <p>The "in-between" era. Condition Zero launched with Deleted Scenes (underrated). Source looked gorgeous but felt like you were shooting underwater. The knife hit sounds are different and everyone noticed. EU players still debate which physics model was better.</p>
+    </div>
+    <div class="edition-card ed-csgo" data-year="2012">
+      <h3>CS:GO</h3>
+      <p>The golden age. Ranked matchmaking. Skins. Operations. The AWP nerf. The AUG meta. Faceit Level 10 grind. 128-tick arguments every single day. Valve Anti-Cheat (VAC) — notorious for catching cheaters 6 years after the fact. EU servers were peak for this era.</p>
+      <div class="danger-box"><p>The danger of CS:GO EU servers: 50% chance your teammates speak a language you do not. This is not a bug. This is a feature.</p></div>
+    </div>
+    <div class="edition-card ed-cs2" data-year="2023">
+      <h3>CS2</h3>
+      <p>The new engine. Source 2. Tick rate is now "sub-tick" (Valve's magic). Smoke grenades are now volumetric. Your old configs don't work. Your muscle memory doesn't work. The underlying network packet structure still updates at a baseline rate equivalent to 64Hz, which is why it can feel like 64-tick equivalent network models. Controversial. Ongoing.</p>
+    </div>
+    <div class="edition-card ed-nexon" data-year="2013">
+      <h3>CS: Nexon Studio</h3>
+      <p>The wildcard. Korean F2P version with zombies, mutations, AI-enhanced enemies, mechs, and character classes. Not canon. Extremely fun. Has a fanbase that will defend it with their lives. EU players: you probably need a VPN.</p>
+      <div class="tip-box"><p>Nexon Zombies mode is arguably more intense than any competitive CS match. Scientifically proven.*<br><small>*Not scientifically proven.</small></p></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 2: EU SERVERS ===== -->
+<div class="bg-section" id="eu-servers">
+<section>
+  <div class="section-header">
+    <div class="section-number">02</div>
+    <div>
+      <div class="section-title">EUROPEAN SERVER GUIDE</div>
+      <div class="section-subtitle">Know your ping. Know your people.</div>
+    </div>
+  </div>
+
+  <div class="quote-block">
+    "Playing on EU servers is not just a game choice. It is a cultural experience. A social experiment. A test of will."
+    <cite>— Ancient EU server proverb, circa 2009</cite>
+  </div>
+
+  <div class="ping-grid">
+    <div class="ping-card"><span class="ping-flag">🇸🇪</span><div class="ping-info"><div class="ping-country">Stockholm, Sweden</div><div class="ping-value ping-good">~1-5ms — FIBER GODLIKE</div><div class="ping-bar"><div class="ping-fill" style="width:99%;background:var(--green)"></div></div></div></div>
+    <div class="ping-card"><span class="ping-flag">🇩🇪</span><div class="ping-info"><div class="ping-country">Frankfurt, Germany</div><div class="ping-value ping-good">~8ms — EXCELLENT</div><div class="ping-bar"><div class="ping-fill" style="width:95%;background:var(--green)"></div></div></div></div>
+    <div class="ping-card"><span class="ping-flag">🇳🇱</span><div class="ping-info"><div class="ping-country">Amsterdam, Netherlands</div><div class="ping-value ping-good">~12ms — EXCELLENT</div><div class="ping-bar"><div class="ping-fill" style="width:90%;background:var(--green)"></div></div></div></div>
+    <div class="ping-card"><span class="ping-flag">🇵🇱</span><div class="ping-info"><div class="ping-country">Warsaw, Poland</div><div class="ping-value ping-good">~22ms — SOLID</div><div class="ping-bar"><div class="ping-fill" style="width:82%;background:var(--green)"></div></div></div></div>
+    <div class="ping-card"><span class="ping-flag">🇫🇷</span><div class="ping-info"><div class="ping-country">Paris, France</div><div class="ping-value ping-ok">~30ms — PLAYABLE</div><div class="ping-bar"><div class="ping-fill" style="width:72%;background:var(--yellow)"></div></div></div></div>
+    <div class="ping-card"><span class="ping-flag">🇪🇸</span><div class="ping-info"><div class="ping-country">Madrid, Spain</div><div class="ping-value ping-ok">~42ms — ACCEPTABLE</div><div class="ping-bar"><div class="ping-fill" style="width:60%;background:var(--yellow)"></div></div></div></div>
+    <div class="ping-card"><span class="ping-flag">🇷🇺</span><div class="ping-info"><div class="ping-country">Moscow, Russia</div><div class="ping-value ping-ok">~55ms — FINE, ACTUALLY</div><div class="ping-bar"><div class="ping-fill" style="width:50%;background:#f80"></div></div></div></div>
+    <div class="ping-card"><span class="ping-flag">🇬🇷</span><div class="ping-info"><div class="ping-country">Athens, Greece</div><div class="ping-value ping-bad">~80ms — SUFFERING</div><div class="ping-bar"><div class="ping-fill" style="width:35%;background:var(--red)"></div></div></div></div>
+    <div class="ping-card"><span class="ping-flag">🇹🇷</span><div class="ping-info"><div class="ping-country">Istanbul, Turkey</div><div class="ping-value ping-bad">~95ms — COPE</div><div class="ping-bar"><div class="ping-fill" style="width:25%;background:var(--red)"></div></div></div></div>
+  </div>
+
+  <div class="tip-box" style="margin-top:24px">
+    <p>EU servers have <strong>8 timezones</strong> worth of players. Peak hours are 18:00–24:00 CET. Off-peak hours are 03:00–07:00 CET (where only the truly dedicated — or deranged — remain).</p>
+  </div>
+
+  <div class="danger-box">
+    <p>Never complain about ping to a player from a country with worse infrastructure than yours. This is considered extremely rude across all EU CS servers and will result in the entire lobby typing in their native language simultaneously.</p>
+  </div>
+</section>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 3: RUSSIAN ===== -->
+<div class="bg-section accent" id="russian">
+<section>
+  <div class="section-header">
+    <div class="section-number">03</div>
+    <div>
+      <div class="section-title">RUSSIAN COMMUNICATION BIBLE</div>
+      <div class="section-subtitle">Mandatory vocabulary for EU server survival</div>
+    </div>
+  </div>
+
+  <div class="quote-block">
+    "On EU servers, knowing Russian is not optional. It is a survival skill."
+    <cite>— Every EU CS player, every year</cite>
+  </div>
+
+  <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.15em;color:var(--orange);margin-bottom:16px;">💣 BOMB SITES</h3>
+  <div style="overflow-x:auto;margin-bottom:32px;">
+  <table class="ru-table">
+    <thead><tr><th>Russian</th><th>Pronunciation</th><th>English</th><th>When to use</th></tr></thead>
+    <tbody>
+      <tr><td class="ru-word">Плент А</td><td class="ru-pron">Plent A</td><td class="ru-en">A Site</td><td class="ru-usage">When the bomb is going to or planted at A</td></tr>
+      <tr><td class="ru-word">Плент Б</td><td class="ru-pron">Plent B</td><td class="ru-en">B Site</td><td class="ru-usage">When the bomb is going to or planted at B</td></tr>
+      <tr><td class="ru-word">Бомба на А</td><td class="ru-pron">Bomba na A</td><td class="ru-en">Bomb at A</td><td class="ru-usage">Confirming the bomb is spotted at A</td></tr>
+      <tr><td class="ru-word">Бомба на Б</td><td class="ru-pron">Bomba na B</td><td class="ru-en">Bomb at B</td><td class="ru-usage">Confirming the bomb is spotted at B</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.15em;color:var(--orange);margin-bottom:16px;">📍 CALLOUTS & MOVEMENT</h3>
+  <div style="overflow-x:auto;margin-bottom:32px;">
+  <table class="ru-table">
+    <thead><tr><th>Russian</th><th>Pronunciation</th><th>English</th><th>When to use</th></tr></thead>
+    <tbody>
+      <tr><td class="ru-word">Иди</td><td class="ru-pron">Idi</td><td class="ru-en">Go</td><td class="ru-usage">When you want the team to push</td></tr>
+      <tr><td class="ru-word">Стоп</td><td class="ru-pron">Stop</td><td class="ru-en">Stop</td><td class="ru-usage">They're running into a wall</td></tr>
+      <tr><td class="ru-word">Назад</td><td class="ru-pron">Nazad</td><td class="ru-en">Fall back</td><td class="ru-usage">The round is lost, retreat</td></tr>
+      <tr><td class="ru-word">Вперёд</td><td class="ru-pron">Vperyod</td><td class="ru-en">Forward</td><td class="ru-usage">Push through the site</td></tr>
+      <tr><td class="ru-word">Слева</td><td class="ru-pron">Sleva</td><td class="ru-en">On the left</td><td class="ru-usage">Enemy spotted left side</td></tr>
+      <tr><td class="ru-word">Справа</td><td class="ru-pron">Sprava</td><td class="ru-en">On the right</td><td class="ru-usage">Enemy spotted right side</td></tr>
+      <tr><td class="ru-word">Сзади</td><td class="ru-pron">Szadi</td><td class="ru-en">Behind you</td><td class="ru-usage">Someone is flanking your teammate</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.15em;color:var(--orange);margin-bottom:16px;">⚔️ COMBAT</h3>
+  <div style="overflow-x:auto;margin-bottom:32px;">
+  <table class="ru-table">
+    <thead><tr><th>Russian</th><th>Pronunciation</th><th>English</th><th>When to use</th></tr></thead>
+    <tbody>
+      <tr><td class="ru-word">Враг</td><td class="ru-pron">Vrag</td><td class="ru-en">Enemy</td><td class="ru-usage">There's an enemy, give info</td></tr>
+      <tr><td class="ru-word">Убил</td><td class="ru-pron">Ubil</td><td class="ru-en">Killed (him)</td><td class="ru-usage">You just got the frag</td></tr>
+      <tr><td class="ru-word">Снайпер</td><td class="ru-pron">Snaiper</td><td class="ru-en">Sniper</td><td class="ru-usage">AWPer spotted, dodge!</td></tr>
+      <tr><td class="ru-word">Стреляй</td><td class="ru-pron">Strelyay</td><td class="ru-en">Shoot!</td><td class="ru-usage">Someone isn't shooting when they should be</td></tr>
+      <tr><td class="ru-word">Граната</td><td class="ru-pron">Granata</td><td class="ru-en">Grenade</td><td class="ru-usage">Incoming grenade warning</td></tr>
+      <tr><td class="ru-word">Дым</td><td class="ru-pron">Dym</td><td class="ru-en">Smoke</td><td class="ru-usage">Throw the smoke / smoke incoming</td></tr>
+      <tr><td class="ru-word">Флэш</td><td class="ru-pron">Flash</td><td class="ru-en">Flashbang</td><td class="ru-usage">Flash coming / look away</td></tr>
+      <tr><td class="ru-word">Перезарядка</td><td class="ru-pron">Perezaryadka</td><td class="ru-en">Reloading</td><td class="ru-usage">Cover me, I'm empty</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.15em;color:var(--orange);margin-bottom:16px;">🎯 TACTICS & OBJECTIVES</h3>
+  <div style="overflow-x:auto;margin-bottom:32px;">
+  <table class="ru-table">
+    <thead><tr><th>Russian</th><th>Pronunciation</th><th>English</th><th>When to use</th></tr></thead>
+    <tbody>
+      <tr><td class="ru-word">Атака</td><td class="ru-pron">Ataka</td><td class="ru-en">Attack</td><td class="ru-usage">Initiating a site execute</td></tr>
+      <tr><td class="ru-word">Защита</td><td class="ru-pron">Zashchita</td><td class="ru-en">Defense / Hold</td><td class="ru-usage">Hold your position</td></tr>
+      <tr><td class="ru-word">Бомба</td><td class="ru-pron">Bomba</td><td class="ru-en">The bomb</td><td class="ru-usage">Bomb info, position callout</td></tr>
+      <tr><td class="ru-word">Сажай бомбу</td><td class="ru-pron">Sazhay bombu</td><td class="ru-en">Plant the bomb</td><td class="ru-usage">Screaming at the carrier to plant</td></tr>
+      <tr><td class="ru-word">Разминируй</td><td class="ru-pron">Razminiruiy</td><td class="ru-en">Defuse it</td><td class="ru-usage">Rush the defuse</td></tr>
+      <tr><td class="ru-word">Помогите</td><td class="ru-pron">Pomogite</td><td class="ru-en">Help me!</td><td class="ru-usage">You are about to die</td></tr>
+      <tr><td class="ru-word">Прикрой</td><td class="ru-pron">Prikroy</td><td class="ru-en">Cover me</td><td class="ru-usage">You need a teammate to watch your back</td></tr>
+      <tr><td class="ru-word">Жди</td><td class="ru-pron">Zhdi</td><td class="ru-en">Wait</td><td class="ru-usage">Stall — timing is wrong</td></tr>
+      <tr><td class="ru-word">Спеши</td><td class="ru-pron">Speshi</td><td class="ru-en">Hurry up!</td><td class="ru-usage">The clock is ticking</td></tr>
+      <tr><td class="ru-word">Один</td><td class="ru-pron">Odin</td><td class="ru-en">One (enemy)</td><td class="ru-usage">Last player spotted</td></tr>
+      <tr><td class="ru-word">Двое</td><td class="ru-pron">Dvoe</td><td class="ru-en">Two enemies</td><td class="ru-usage">Two alive, be careful</td></tr>
+      <tr><td class="ru-word">Трое</td><td class="ru-pron">Troe</td><td class="ru-en">Three enemies</td><td class="ru-usage">Three spotted, probably rotate</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.15em;color:var(--orange);margin-bottom:16px;">📢 COMMS & SOCIAL</h3>
+  <div style="overflow-x:auto;margin-bottom:32px;">
+  <table class="ru-table">
+    <thead><tr><th>Russian</th><th>Pronunciation</th><th>English</th><th>When to use</th></tr></thead>
+    <tbody>
+      <tr><td class="ru-word">Понял</td><td class="ru-pron">Ponyal</td><td class="ru-en">Roger / Understood</td><td class="ru-usage">Always say this. Always.</td></tr>
+      <tr><td class="ru-word">Готов</td><td class="ru-pron">Gotov</td><td class="ru-en">Ready</td><td class="ru-usage">Buy phase is over, ready to go</td></tr>
+      <tr><td class="ru-word">Есть</td><td class="ru-pron">Yest</td><td class="ru-en">Yes / Got it</td><td class="ru-usage">Affirmative response</td></tr>
+      <tr><td class="ru-word">Нет</td><td class="ru-pron">Net</td><td class="ru-en">No</td><td class="ru-usage">Negative</td></tr>
+      <tr><td class="ru-word">Молодец</td><td class="ru-pron">Molodets</td><td class="ru-en">Good job / Nice one</td><td class="ru-usage">Teammate made a great play</td></tr>
+      <tr><td class="ru-word">Спасибо</td><td class="ru-pron">Spasibo</td><td class="ru-en">Thank you</td><td class="ru-usage">Someone dropped you a weapon</td></tr>
+      <tr><td class="ru-word">Пожалуйста</td><td class="ru-pron">Pozhaluysta</td><td class="ru-en">Please / You're welcome</td><td class="ru-usage">Polite requests go a long way</td></tr>
+      <tr><td class="ru-word">Удачи</td><td class="ru-pron">Udachi</td><td class="ru-en">Good luck</td><td class="ru-usage">Round start, knife round</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.15em;color:var(--orange);margin-bottom:16px;">🎮 CS SLANG & МЕМЫ (MEMES)</h3>
+  <div style="overflow-x:auto;margin-bottom:32px;">
+  <table class="ru-table">
+    <thead><tr><th>Russian</th><th>Pronunciation</th><th>English</th><th>Context</th></tr></thead>
+    <tbody>
+      <tr><td class="ru-word">Читер</td><td class="ru-pron">Chiter</td><td class="ru-en">Cheater / Hacker</td><td class="ru-usage">Someone's aim is suspiciously perfect</td></tr>
+      <tr><td class="ru-word">Ваншот</td><td class="ru-pron">Vanshot</td><td class="ru-en">One-shot kill</td><td class="ru-usage">That AWP or Deagle kill</td></tr>
+      <tr><td class="ru-word">Хэдшот</td><td class="ru-pron">Hedshot</td><td class="ru-en">Headshot</td><td class="ru-usage">Universal. Everyone knows.</td></tr>
+      <tr><td class="ru-word">Нуб</td><td class="ru-pron">Noob</td><td class="ru-en">Noob</td><td class="ru-usage">You just walked into a smoke</td></tr>
+      <tr><td class="ru-word">Про</td><td class="ru-pron">Pro</td><td class="ru-en">Pro player</td><td class="ru-usage">Either genuine compliment or heavy sarcasm</td></tr>
+      <tr><td class="ru-word">Рак</td><td class="ru-pron">Rak</td><td class="ru-en">Cancer / Trash player (lit. "crab")</td><td class="ru-usage">Strong insult — use carefully</td></tr>
+      <tr><td class="ru-word">Тащить</td><td class="ru-pron">Tashchit</td><td class="ru-en">To carry the team</td><td class="ru-usage">"Я тащу" = I'm carrying right now</td></tr>
+      <tr><td class="ru-word">Слить</td><td class="ru-pron">Slit</td><td class="ru-en">To throw / feed</td><td class="ru-usage">When someone dies stupidly every round</td></tr>
+      <tr><td class="ru-word">Дроп</td><td class="ru-pron">Drop</td><td class="ru-en">Drop (a weapon)</td><td class="ru-usage">"Дроп пушку" = drop the gun</td></tr>
+      <tr><td class="ru-word">Пушка</td><td class="ru-pron">Pushka</td><td class="ru-en">Gun (slang)</td><td class="ru-usage">Casual term for any weapon</td></tr>
+      <tr><td class="ru-word">Тилт</td><td class="ru-pron">Tilt</td><td class="ru-en">Tilted / on tilt</td><td class="ru-usage">Losing 5 rounds in a row feeling</td></tr>
+      <tr><td class="ru-word">Рэш</td><td class="ru-pron">Resh</td><td class="ru-en">Rush</td><td class="ru-usage">"Рэш Б" = rush B tunnel</td></tr>
+      <tr><td class="ru-word">Пик</td><td class="ru-pron">Pik</td><td class="ru-en">Peek</td><td class="ru-usage">"Пикай угол" = peek the corner</td></tr>
+      <tr><td class="ru-word">Клатч</td><td class="ru-pron">Klach</td><td class="ru-en">Clutch</td><td class="ru-usage">1vN situation. Will be discussed for ages.</td></tr>
+      <tr><td class="ru-word">Экономика</td><td class="ru-pron">Ekonomika</td><td class="ru-en">Economy</td><td class="ru-usage">"Эко раунд" = save round</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.15em;color:var(--orange);margin-bottom:16px;">😤 EMOTIONS & REACTIONS</h3>
+  <div style="overflow-x:auto;margin-bottom:32px;">
+  <table class="ru-table">
+    <thead><tr><th>Russian</th><th>Pronunciation</th><th>English</th><th>Mood</th></tr></thead>
+    <tbody>
+      <tr><td class="ru-word">Красиво!</td><td class="ru-pron">Krasivo</td><td class="ru-en">Beautiful! (great play)</td><td class="ru-usage">🎉 Hype after a sick play</td></tr>
+      <tr><td class="ru-word">Давай давай!</td><td class="ru-pron">Davay davay</td><td class="ru-en">Let's go! Come on!</td><td class="ru-usage">🔥 Rallying the team</td></tr>
+      <tr><td class="ru-word">Нормально</td><td class="ru-pron">Normalno</td><td class="ru-en">It's fine / OK</td><td class="ru-usage">😐 Calm reassurance after a mistake</td></tr>
+      <tr><td class="ru-word">Всё нормально</td><td class="ru-pron">Vsyo normalno</td><td class="ru-en">Everything is fine</td><td class="ru-usage">🧘 Nothing is fine. Everything is on fire.</td></tr>
+      <tr><td class="ru-word">Ничего страшного</td><td class="ru-pron">Nichevo strashnogo</td><td class="ru-en">No big deal / It's OK</td><td class="ru-usage">👍 Forgiving a teammate's mistake</td></tr>
+      <tr><td class="ru-word">Да ладно!</td><td class="ru-pron">Da ladno</td><td class="ru-en">No way! / Come on!</td><td class="ru-usage">😤 Disbelief at a bad play</td></tr>
+      <tr><td class="ru-word">Везёт</td><td class="ru-pron">Vezyot</td><td class="ru-en">Lucky / Getting lucky</td><td class="ru-usage">🍀 They're just lucky, OK?</td></tr>
+      <tr><td class="ru-word">Удача</td><td class="ru-pron">Udacha</td><td class="ru-en">Luck</td><td class="ru-usage">🎲 "Чистая удача" = pure luck</td></tr>
+      <tr><td class="ru-word">Боже мой</td><td class="ru-pron">Bozhe moy</td><td class="ru-en">Oh my God</td><td class="ru-usage">😱 Witnessing something unbelievable</td></tr>
+      <tr><td class="ru-word">Серьёзно?</td><td class="ru-pron">Seryozno?</td><td class="ru-en">Seriously?</td><td class="ru-usage">🙄 That shot was through a wall</td></tr>
+      <tr><td class="ru-word">Это было хорошо</td><td class="ru-pron">Eto bylo khorosho</td><td class="ru-en">That was good</td><td class="ru-usage">👏 Genuine compliment</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.15em;color:var(--orange);margin-bottom:16px;">🔢 NUMBERS IN BATTLE</h3>
+  <div style="overflow-x:auto;margin-bottom:32px;">
+  <table class="ru-table">
+    <thead><tr><th>Russian</th><th>Pronunciation</th><th>Meaning</th><th>Usage</th></tr></thead>
+    <tbody>
+      <tr><td class="ru-word">Один / Оди</td><td class="ru-pron">Odin</td><td class="ru-en">1 enemy left</td><td class="ru-usage">Last man standing callout</td></tr>
+      <tr><td class="ru-word">Двое</td><td class="ru-pron">Dvoe</td><td class="ru-en">2 enemies</td><td class="ru-usage">Two alive, coordinate</td></tr>
+      <tr><td class="ru-word">Трое</td><td class="ru-pron">Troe</td><td class="ru-en">3 enemies</td><td class="ru-usage">Three spotted, likely B split</td></tr>
+      <tr><td class="ru-word">Четверо</td><td class="ru-pron">Chetvero</td><td class="ru-en">4 enemies</td><td class="ru-usage">Almost full team — rotate NOW</td></tr>
+      <tr><td class="ru-word">Пятеро</td><td class="ru-pron">Pyatero</td><td class="ru-en">5 enemies</td><td class="ru-usage">Full team push — all info matters</td></tr>
+      <tr><td class="ru-word">Низкий HP</td><td class="ru-pron">Nizkiy HP</td><td class="ru-en">Low health</td><td class="ru-usage">Enemy is weak, push now</td></tr>
+      <tr><td class="ru-word">Полный HP</td><td class="ru-pron">Polniy HP</td><td class="ru-en">Full health</td><td class="ru-usage">Enemy has full HP, be careful</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.15em;color:var(--orange);margin-bottom:16px;">🅰️ THE CYRILLIC ALPHABET — QUICK REFERENCE</h3>
+  <div class="danger-box"><p>You don't need to write Russian to survive EU servers. But recognizing Cyrillic letters will help you READ chat faster than asking teammates to translate. This is your emergency cheat sheet.</p></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin:16px 0 32px;">
+    <div style="background:var(--mid);border:1px solid #2a1a00;padding:10px;text-align:center;"><span style="font-size:1.4rem;color:#fff;display:block;">А а</span><span style="font-size:0.7rem;color:#666;">= A (father)</span></div>
+    <div style="background:var(--mid);border:1px solid #2a1a00;padding:10px;text-align:center;"><span style="font-size:1.4rem;color:#fff;display:block;">Б б</span><span style="font-size:0.7rem;color:#666;">= B (bomb)</span></div>
+    <div style="background:var(--mid);border:1px solid #2a1a00;padding:10px;text-align:center;"><span style="font-size:1.4rem;color:#fff;display:block;">В в</span><span style="font-size:0.7rem;color:#666;">= V (victory)</span></div>
+    <div style="background:var(--mid);border:1px solid #2a1a00;padding:10px;text-align:center;"><span style="font-size:1.4rem;color:#fff;display:block;">Г г</span><span style="font-size:0.7rem;color:#666;">= G (go)</span></div>
+    <div style="background:var(--mid);border:1px solid #2a1a00;padding:10px;text-align:center;"><span style="font-size:1.4rem;color:#fff;display:block;">Д д</span><span style="font-size:0.7rem;color:#666;">= D (dust)</span></div>
+    <div style="background:var(--mid);border:1px solid #2a1a00;padding:10px;text-align:center;"><span style="font-size:1.4rem;color:#fff;display:block;">Е е</span><span style="font-size:0.7rem;color:#666;">= YE (yes)</span></div>
+    <div style="background:var(--mid);border:1px solid #2a1a00;padding:10px;text-align:center;"><span style="font-size:1.4rem;color:#fff;display:block;">З з</span><span style="font-size:0.7rem;color:#666;">= Z (zone)</span></div>
+    <div style="background:var(--mid);border:1px solid #2a1a00;padding:10px;text-align:center;"><span style="font-size:1.4rem;color:#fff;display:block;">И и</span><span style="font-size:0.7rem;color:#666;">= EE (team)</span></div>
+    <div style="background:var(--mid);border:1px solid #2a1a00;padding:10px;text-align:center;"><span style="font-size:1.4rem;color:#fff;display:block;">К к</span><span style="font-size:0.7rem;color:#666;">= K (kill)</span></div>
+    <div style="background:var(--mid);border:1px solid #2a1a00;padding:10px;text-align:center;"><span style="font-size:1.4rem;color:#fff;display:block;">Л л</span><span style="font-size:0.7rem;color:#666;">= L (left)</span></div>
+    <div style="background:var(--mid);border:1px solid #2a1a00;padding:10px;text-align:center;"><span style="font-size:1.4rem;color:#fff;display:block;">М м</span><span style="font-size:0.7rem;color:#666;">= M (mirage)</span></div>
+    <div style="background:var(--mid);border:1px solid #2a1a00;padding:10px;text-align:center;"><span style="font-size:1.4rem;color:#fff;display:block;">Н н</span><span style="font-size:0.7rem;color:#666;">= N (nuke)</span></div>
+    <div style="background:var(--mid);border:1px solid #2a1a00;padding:10px;text-align:center;"><span style="font-size:1.4rem;color:#fff;display:block;">О о</span><span style="font-size:0.7rem;color:#666;">= O (go)</span></div>
+    <div style="background:var(--mid);border:1px solid #2a1a00;padding:10px;text-align:center;"><span style="font-size:1.4rem;color:#fff;display:block;">П п</span><span style="font-size:0.7rem;color:#666;">= P (push)</span></div>
+    <div style="background:var(--mid);border:1px solid #2a1a00;padding:10px;text-align:center;"><span style="font-size:1.4rem;color:#fff;display:block;">Р р</span><span style="font-size:0.7rem;color:#666;">= R (rotate)</span></div>
+    <div style="background:var(--mid);border:1px solid #2a1a00;padding:10px;text-align:center;"><span style="font-size:1.4rem;color:#fff;display:block;">С с</span><span style="font-size:0.7rem;color:#666;">= S (smoke)</span></div>
+    <div style="background:var(--mid);border:1px solid #2a1a00;padding:10px;text-align:center;"><span style="font-size:1.4rem;color:#fff;display:block;">Т т</span><span style="font-size:0.7rem;color:#666;">= T (terrorist)</span></div>
+    <div style="background:var(--mid);border:1px solid #2a1a00;padding:10px;text-align:center;"><span style="font-size:1.4rem;color:#fff;display:block;">У у</span><span style="font-size:0.7rem;color:#666;">= OO (shoot)</span></div>
+    <div style="background:var(--mid);border:1px solid #2a1a00;padding:10px;text-align:center;"><span style="font-size:1.4rem;color:#fff;display:block;">Х х</span><span style="font-size:0.7rem;color:#666;">= KH (loch)</span></div>
+    <div style="background:var(--mid);border:1px solid #2a1a00;padding:10px;text-align:center;"><span style="font-size:1.4rem;color:#fff;display:block;">Ш ш</span><span style="font-size:0.7rem;color:#666;">= SH (shoot)</span></div>
+    <div style="background:var(--mid);border:1px solid #2a1a00;padding:10px;text-align:center;"><span style="font-size:1.4rem;color:#fff;display:block;">Я я</span><span style="font-size:0.7rem;color:#666;">= YA (yard)</span></div>
+    <div style="background:var(--mid);border:1px solid #1a001a;padding:10px;text-align:center;border-color:#ff00ff55;"><span style="font-size:1.4rem;color:#ff00ff;display:block;">Р р</span><span style="font-size:0.7rem;color:#aa00aa;">Looks like P. It's R. Classic trap.</span></div>
+    <div style="background:var(--mid);border:1px solid #1a001a;padding:10px;text-align:center;border-color:#ff00ff55;"><span style="font-size:1.4rem;color:#ff00ff;display:block;">Н н</span><span style="font-size:0.7rem;color:#aa00aa;">Looks like H. It's N. You've been warned.</span></div>
+    <div style="background:var(--mid);border:1px solid #1a001a;padding:10px;text-align:center;border-color:#ff00ff55;"><span style="font-size:1.4rem;color:#ff00ff;display:block;">В в</span><span style="font-size:0.7rem;color:#aa00aa;">Looks like B. It's V. Don't swap them.</span></div>
+  </div>
+
+  <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.15em;color:var(--orange);margin-bottom:16px;">🏆 ESSENTIAL RUSSIAN PHRASES — FULL SENTENCES</h3>
+  <div style="overflow-x:auto;margin-bottom:32px;">
+  <table class="ru-table">
+    <thead><tr><th>Russian</th><th>Pronunciation</th><th>English</th></tr></thead>
+    <tbody>
+      <tr><td class="ru-word">Я не говорю по-русски</td><td class="ru-pron">Ya ne govoryu po-russki</td><td class="ru-en">I don't speak Russian</td></tr>
+      <tr><td class="ru-word">Говорите по-английски?</td><td class="ru-pron">Govorite po-angliyski?</td><td class="ru-en">Do you speak English?</td></tr>
+      <tr><td class="ru-word">Я новичок</td><td class="ru-pron">Ya novichok</td><td class="ru-en">I'm a beginner (yes, that word)</td></tr>
+      <tr><td class="ru-word">Хорошая игра</td><td class="ru-pron">Khoroshaya igra</td><td class="ru-en">Good game</td></tr>
+      <tr><td class="ru-word">Ты играешь хорошо</td><td class="ru-pron">Ty igrayesh khorosho</td><td class="ru-en">You play well</td></tr>
+      <tr><td class="ru-word">Давай вместе</td><td class="ru-pron">Davay vmeste</td><td class="ru-en">Let's go together</td></tr>
+      <tr><td class="ru-word">Мне нужна помощь</td><td class="ru-pron">Mne nuzhna pomoshch</td><td class="ru-en">I need help</td></tr>
+      <tr><td class="ru-word">Стой здесь</td><td class="ru-pron">Stoy zdes</td><td class="ru-en">Stay here</td></tr>
+      <tr><td class="ru-word">Они все А</td><td class="ru-pron">Oni vse A</td><td class="ru-en">They're all at A</td></tr>
+      <tr><td class="ru-word">Я вижу снайпера</td><td class="ru-pron">Ya vizhu snipera</td><td class="ru-en">I see a sniper</td></tr>
+      <tr><td class="ru-word">Не стреляй в меня!</td><td class="ru-pron">Ne strelyay v menya!</td><td class="ru-en">Don't shoot me!</td></tr>
+      <tr><td class="ru-word">Хороший выстрел</td><td class="ru-pron">Khoroshiy vystrel</td><td class="ru-en">Nice shot</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="quote-block">
+    "Учи русский или иди на кикбоксинг."
+    <cite>— "Learn Russian or go play kickboxing." — Anonymous EU server legend, 2014</cite>
+  </div>
+
+  <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.15em;color:var(--orange);margin:24px 0 16px;">🧠 RUSSIAN CS CULTURE — WHAT YOU NEED TO KNOW</h3>
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-icon">🐻</span>
+      <h3>THE HARDBASS WARMUP</h3>
+      <p>Russian players have been known to play hardbass through voice comms before important rounds. This is not intentional disruption — it is ritual. Respect it. The beat drops, the rush begins.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">📣</span>
+      <h3>"ПОНЯЛ" RESPONSE CULTURE</h3>
+      <p>If a Russian teammate says something and you respond "Понял" (understood), the entire lobby respects you. A single word unlocks trust. Practice it. It sounds like "pon-YAL". Say it every time. Always.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🎯</span>
+      <h3>THE SILENT CARRY</h3>
+      <p>Russian players with exceptional aim often say nothing. No callouts. No chat. 4 kills per round. This is not being antisocial — this is deep focus mode. Don't interrupt. They're in the zone.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🚀</span>
+      <h3>РЭШ Б (RUSH B)</h3>
+      <p>"Rush B" has become a global meme but on actual Russian EU servers, it is a legitimate tactical philosophy. The B tunnel rush on Dust2, executed with full commitment and hardbass energy, has won more rounds than any utility setup.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🎭</span>
+      <h3>EMOTIONAL RANGE</h3>
+      <p>Russian teammates can go from "ничего страшного" (no big deal) to intensely passionate in 2 rounds. This is not volatility. This is investment. They care. A player who cares is always better than one who doesn't.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">💬</span>
+      <h3>USING TRANSLATOR</h3>
+      <p>Type "переведи" (translate) in chat and paste their message. Or just learn 20 words from this Bible and skip the translator entirely. The goal: never need it for in-game comms. You can do this.</p>
+    </div>
+  </div>
+
+</section>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 10: RUSSIAN PRACTICE AI CHAT ===== -->
+<div class="bg-section accent" id="ru-practice">
+<section>
+  <div class="section-header">
+    <div class="section-number">10</div>
+    <div>
+      <div class="section-title">🎙️ RUSSIAN PRACTICE SERVER</div>
+      <div class="section-subtitle">Live AI chat — practice Russian CS comms right now</div>
+    </div>
+  </div>
+
+  <div class="quote-block">
+    "The only way to learn is to speak. Even badly. Especially badly."
+    <cite>— Every language teacher, every EU server veteran</cite>
+  </div>
+
+  <div class="tip-box">
+    <p>This is a <strong>live AI conversation partner</strong> powered by the Anthropic API. Your AI teammate speaks Russian CS slang and will help you practice callouts, phrases, and conversations you'd actually have on a European server. Type in English or broken Russian — it'll help you either way.</p>
+  </div>
+
+  <!-- CHAT UI -->
+  <div id="ru-chat-wrapper" style="
+    background: #050508;
+    border: 2px solid var(--orange);
+    box-shadow: 0 0 40px rgba(255,106,0,0.15), inset 0 0 60px rgba(0,0,0,0.5);
+    margin-top: 24px;
+    position: relative;
+    overflow: hidden;
+  ">
+    <!-- Header bar -->
+    <div style="
+      background: linear-gradient(90deg, rgba(255,106,0,0.2), rgba(255,106,0,0.05));
+      border-bottom: 1px solid rgba(255,106,0,0.3);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.15em;
+    ">
+      <span class="live-dot"></span>
+      <span style="color:var(--orange);font-size:1rem;">EU SERVER CHAT — RUSSIAN PRACTICE MODE</span>
+      <span style="margin-left:auto;font-size:0.7rem;color:#444;font-family:'Share Tech Mono',monospace;">PLAYER: YOU | AI: VANYA_RU</span>
+    </div>
+
+    <!-- Mode buttons -->
+    <div style="padding: 12px 20px; border-bottom: 1px solid #111; display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+      <span style="font-size:0.7rem;color:#555;letter-spacing:0.1em;font-family:'Bebas Neue',sans-serif;">PRACTICE MODE:</span>
+      <button class="mode-btn active" data-mode="callouts" onclick="setMode(this)" style="padding:6px 14px;border:1px solid var(--orange);background:rgba(255,106,0,0.15);color:var(--orange);font-family:'Share Tech Mono',monospace;font-size:0.75rem;cursor:pointer;transition:all 0.2s;">📍 Callouts</button>
+      <button class="mode-btn" data-mode="social" onclick="setMode(this)" style="padding:6px 14px;border:1px solid #333;background:transparent;color:#555;font-family:'Share Tech Mono',monospace;font-size:0.75rem;cursor:pointer;transition:all 0.2s;">💬 Social Chat</button>
+      <button class="mode-btn" data-mode="scenario" onclick="setMode(this)" style="padding:6px 14px;border:1px solid #333;background:transparent;color:#555;font-family:'Share Tech Mono',monospace;font-size:0.75rem;cursor:pointer;transition:all 0.2s;">🎮 Game Scenario</button>
+      <button class="mode-btn" data-mode="quiz" onclick="setMode(this)" style="padding:6px 14px;border:1px solid #333;background:transparent;color:#555;font-family:'Share Tech Mono',monospace;font-size:0.75rem;cursor:pointer;transition:all 0.2s;">🧠 Vocab Quiz</button>
+    </div>
+
+    <!-- Messages -->
+    <div id="chat-messages" style="
+      height: 380px;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--orange) #000;
+    ">
+      <!-- Messages inserted by JS -->
+    </div>
+
+    <!-- Input area -->
+    <div style="
+      border-top: 1px solid rgba(255,106,0,0.2);
+      padding: 12px 16px;
+      display: flex;
+      gap: 10px;
+      background: rgba(0,0,0,0.4);
+    ">
+      <input id="chat-input" type="text" placeholder="Type in English or Russian... (e.g. 'how do I say bomb on B?' or 'Привет!')" style="
+        flex: 1;
+        background: #0a0a0e;
+        border: 1px solid #2a2a35;
+        color: #e8e8e8;
+        padding: 10px 14px;
+        font-family: 'Share Tech Mono', monospace;
+        font-size: 0.85rem;
+        outline: none;
+        transition: border-color 0.2s;
+      " onkeypress="if(event.key==='Enter')sendMessage()" onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='#2a2a35'">
+      <button onclick="sendMessage()" id="send-btn" style="
+        background: var(--orange);
+        color: #000;
+        border: none;
+        padding: 10px 22px;
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1rem;
+        letter-spacing: 0.1em;
+        cursor: pointer;
+        transition: all 0.2s;
+        white-space: nowrap;
+      " onmouseover="this.style.background='var(--yellow)'" onmouseout="this.style.background='var(--orange)'">SEND ►</button>
+    </div>
+
+    <!-- Quick phrases -->
+    <div style="padding: 10px 16px; border-top: 1px solid #111; display:flex; flex-wrap:wrap; gap:6px;">
+      <span style="font-size:0.65rem;color:#333;letter-spacing:0.1em;font-family:'Bebas Neue',sans-serif;margin-right:4px;align-self:center;">QUICK:</span>
+      <button onclick="quickSend('Teach me how to call out an enemy at B site in Russian')" style="padding:4px 10px;border:1px solid #222;background:transparent;color:#555;font-family:'Share Tech Mono',monospace;font-size:0.7rem;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.color='var(--orange)';this.style.borderColor='var(--orange)'" onmouseout="this.style.color='#555';this.style.borderColor='#222'">Enemy at B</button>
+      <button onclick="quickSend('Quiz me on 5 random Russian CS words')" style="padding:4px 10px;border:1px solid #222;background:transparent;color:#555;font-family:'Share Tech Mono',monospace;font-size:0.7rem;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.color='var(--orange)';this.style.borderColor='var(--orange)'" onmouseout="this.style.color='#555';this.style.borderColor='#222'">Quiz me</button>
+      <button onclick="quickSend('I want to practice a scenario: I need to tell my Russian teammates to rush A site')" style="padding:4px 10px;border:1px solid #222;background:transparent;color:#555;font-family:'Share Tech Mono',monospace;font-size:0.7rem;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.color='var(--orange)';this.style.borderColor='var(--orange)'" onmouseout="this.style.color='#555';this.style.borderColor='#222'">Rush A scenario</button>
+      <button onclick="quickSend('How do I say \"I see a sniper at mid\" in Russian?')" style="padding:4px 10px;border:1px solid #222;background:transparent;color:#555;font-family:'Share Tech Mono',monospace;font-size:0.7rem;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.color='var(--orange)';this.style.borderColor='var(--orange)'" onmouseout="this.style.color='#555';this.style.borderColor='#222'">Sniper at mid</button>
+      <button onclick="quickSend('Привет! Как дела?')" style="padding:4px 10px;border:1px solid #222;background:transparent;color:#555;font-family:'Share Tech Mono',monospace;font-size:0.7rem;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.color='var(--orange)';this.style.borderColor='var(--orange)'" onmouseout="this.style.color='#555';this.style.borderColor='#222'">Привет!</button>
+      <button onclick="quickSend('What are the most important Russian words for my first EU match?')" style="padding:4px 10px;border:1px solid #222;background:transparent;color:#555;font-family:'Share Tech Mono',monospace;font-size:0.7rem;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.color='var(--orange)';this.style.borderColor='var(--orange)'" onmouseout="this.style.color='#555';this.style.borderColor='#222'">First EU match</button>
+    </div>
+  </div>
+
+  <div class="danger-box" style="margin-top:20px;">
+    <p>Your AI practice partner "Vanya_RU" is powered by Claude (Anthropic API). It plays the role of a veteran Russian CS player who helps you learn callouts, vocabulary, and phrases you'll actually use. All conversation history is kept for context within your session.</p>
+  </div>
+</section>
+</div>
+
+<script>
+// ===== RUSSIAN PRACTICE CHAT =====
+let chatHistory = [];
+let currentMode = 'callouts';
+
+const SYSTEM_PROMPTS = {
+  callouts: `You are Vanya_RU, a veteran Russian Counter-Strike player with 15 years of EU server experience. You help people learn Russian CS callouts and communication. You speak English well but naturally mix in Russian words and phrases. When teaching Russian, always provide: the Russian word in Cyrillic, the pronunciation in Latin letters, and what it means. Keep responses concise and practical — like actual in-game comms. Be enthusiastic, use CS humor, and treat the user like a new teammate you're coaching. Format Russian words clearly.`,
+  social: `You are Vanya_RU, a veteran Russian CS player. Now you're just chatting socially after a match. Help the user practice casual Russian conversation, Russian culture, memes, and general Russian expressions they might hear on EU servers. Be friendly, funny, and teach them real expressions. Mix Russian and English naturally.`,
+  scenario: `You are Vanya_RU running a live game scenario training session. Create a realistic Counter-Strike situation (e.g., "Bomb is planted at A, 3 enemies alive, you have AWP and 2 teammates") and roleplay it. Teach the user what Russian phrases to use in that exact scenario. Be dramatic and immersive like it's a real match.`,
+  quiz: `You are Vanya_RU running a Russian CS vocabulary quiz. Ask the user to translate words or phrases (English to Russian or Russian to English). Give 1 question at a time. After they answer, tell them if they're correct, give the right answer if wrong, then ask the next one. Track their score. Be encouraging. Focus on practical CS vocabulary.`
+};
+
+const WELCOME_MESSAGES = {
+  callouts: "Привет, teammate! 👋 I'm Vanya_RU. I've been playing on EU servers since CS 1.6. Let me teach you Russian callouts so you can actually communicate with your team. Ask me anything — how to call positions, what to say when you spot enemies, how to ask for help. What do you want to learn first?",
+  social: "Привет! Давай поговорим! After a long session, I like to just chat. I can teach you casual Russian — how to make friends, react to plays, talk trash (respectfully), and understand what your teammates are saying in chat. What's on your mind?",
+  scenario: "ATTENTION! We are live. Scenario mode activated. 🎮\n\nSituation: It's Round 12. Score is 5-6, you're losing. Your team has $3200 each. You have 3 Russian teammates who speak almost no English. You need to coordinate a B site execute on Dust2.\n\nWhat do you say to your team? I'll teach you the Russian phrases in real time.",
+  quiz: "Хорошо! Quiz time. I'll test your Russian CS vocabulary. I'll give you a word or phrase and you translate it. Ready?\n\n**Question 1:** What does \"Понял\" mean in English?\n\nType your answer!"
+};
+
+function setMode(btn) {
+  document.querySelectorAll('.mode-btn').forEach(b => {
+    b.style.borderColor = '#333';
+    b.style.background = 'transparent';
+    b.style.color = '#555';
+  });
+  btn.style.borderColor = 'var(--orange)';
+  btn.style.background = 'rgba(255,106,0,0.15)';
+  btn.style.color = 'var(--orange)';
+  currentMode = btn.dataset.mode;
+  chatHistory = [];
+  const container = document.getElementById('chat-messages');
+  container.innerHTML = '';
+  addMessage('assistant', WELCOME_MESSAGES[currentMode]);
+}
+
+function addMessage(role, content) {
+  const container = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.style.cssText = `
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    ${role === 'user' ? 'flex-direction: row-reverse;' : ''}
+    animation: fadeIn 0.3s ease;
+  `;
+
+  const avatar = document.createElement('div');
+  avatar.style.cssText = `
+    width: 32px; height: 32px; min-width: 32px;
+    border-radius: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    border: 1px solid ${role === 'user' ? 'var(--blue)' : 'var(--orange)'};
+    background: ${role === 'user' ? 'rgba(0,207,255,0.1)' : 'rgba(255,106,0,0.1)'};
+  `;
+  avatar.textContent = role === 'user' ? '👤' : '🇷🇺';
+
+  const bubble = document.createElement('div');
+  bubble.style.cssText = `
+    background: ${role === 'user' ? 'rgba(0,207,255,0.08)' : 'rgba(255,106,0,0.06)'};
+    border: 1px solid ${role === 'user' ? 'rgba(0,207,255,0.2)' : 'rgba(255,106,0,0.2)'};
+    padding: 10px 14px;
+    max-width: 78%;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.82rem;
+    color: #ccc;
+    line-height: 1.6;
+    white-space: pre-wrap;
+  `;
+
+  // Format bold text
+  bubble.innerHTML = content.replace(/\*\*(.*?)\*\*/g, '<strong style="color:#fff">$1</strong>');
+
+  div.appendChild(avatar);
+  div.appendChild(bubble);
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function addTypingIndicator() {
+  const container = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.id = 'typing-indicator';
+  div.style.cssText = 'display:flex;gap:10px;align-items:center;';
+  div.innerHTML = `<div style="width:32px;height:32px;border:1px solid var(--orange);background:rgba(255,106,0,0.1);display:flex;align-items:center;justify-content:center;">🇷🇺</div><div style="background:rgba(255,106,0,0.06);border:1px solid rgba(255,106,0,0.2);padding:10px 16px;font-family:'Share Tech Mono',monospace;font-size:0.85rem;color:var(--orange);">Vanya печатает<span id="typing-dots">...</span></div>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function removeTypingIndicator() {
+  const el = document.getElementById('typing-indicator');
+  if (el) el.remove();
+}
+
+async function sendMessage() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+
+  input.value = '';
+  addMessage('user', text);
+  chatHistory.push({ role: 'user', content: text });
+
+  const btn = document.getElementById('send-btn');
+  btn.disabled = true;
+  btn.textContent = '...';
+  addTypingIndicator();
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPTS[currentMode],
+        messages: chatHistory
+      })
+    });
+
+    const data = await response.json();
+    removeTypingIndicator();
+
+    if (data.content && data.content[0]) {
+      const reply = data.content[0].text;
+      addMessage('assistant', reply);
+      chatHistory.push({ role: 'assistant', content: reply });
+    } else {
+      addMessage('assistant', 'Ошибка... Connection lost. Try again, teammate.');
+    }
+  } catch (err) {
+    removeTypingIndicator();
+    addMessage('assistant', 'Server error. Even EU servers go down sometimes. Try again.');
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'SEND ►';
+}
+
+function quickSend(msg) {
+  document.getElementById('chat-input').value = msg;
+  sendMessage();
+}
+
+// Add fade-in animation
+const chatStyle = document.createElement('style');
+chatStyle.textContent = '@keyframes fadeIn { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform: translateY(0); } }';
+document.head.appendChild(chatStyle);
+
+// Initialize chat on load
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    addMessage('assistant', WELCOME_MESSAGES['callouts']);
+  }, 300);
+});
+</script>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 4: ECONOMY ===== -->
+<div class="bg-section" id="economy">
+<section>
+  <div class="section-header">
+    <div class="section-number">04</div>
+    <div>
+      <div class="section-title">THE ECONOMY MANIFESTO</div>
+      <div class="section-subtitle">Money management for the EU grind</div>
+    </div>
+  </div>
+
+  <div class="card-grid" style="margin-bottom:32px;">
+    <div class="card">
+      <span class="card-icon">💸</span>
+      <h3>FULL BUY</h3>
+      <p>Rifle + full armor + kit + grenades. The dream. Requires ~$4750+. This is when your team has money and everyone should be happy. On EU servers, expect someone to drop their money on an M4 skin inspection instead of a flashbang.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">💰</span>
+      <h3>ECO ROUND</h3>
+      <p>Save everything. Pistol only. Your job is to either steal a rifle or die fast. On EU servers, at least one player will buy a MAC-10 and rush B anyway. They will inexplicably get 3 kills.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🔫</span>
+      <h3>FORCE BUY</h3>
+      <p>Half-money, questionable decisions. SMGs, a single grenade, and prayers. Either you crush the enemy's economy or you feed them rifles. A coin flip with higher stakes than any casino.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🗡️</span>
+      <h3>PISTOL ROUND</h3>
+      <p>Round 1 and Round 16. Five players, five pistols, chaos. EU servers will have someone clutch the pistol round with a Tec-9 and never let you forget it for the entire match.</p>
+    </div>
+  </div>
+
+  <div style="overflow-x:auto;">
+  <table class="eco-table">
+    <thead><tr><th>Item</th><th>Price ($)</th><th>Recommendation</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>AK-47</td><td class="price">$2700</td><td class="rec">★★★★★ BUY</td><td>T-side king. One-tap helmet. The rifle.</td></tr>
+      <tr><td>M4A4 / M4A1-S</td><td class="price">$3100/$2900</td><td class="rec">★★★★★ BUY</td><td>CT rifle. Suppressed is popular on EU for info control.</td></tr>
+      <tr><td>AWP</td><td class="price">$4750</td><td class="rec">★★★★☆ SITUATIONAL</td><td>One shot, one kill. Do not give to random EU teammate.</td></tr>
+      <tr><td>Desert Eagle</td><td class="price">$700</td><td class="rec">★★★★☆ ECO WEAPON</td><td>The showstopper. EU players have a specific relationship with this gun.</td></tr>
+      <tr><td>Smoke Grenade</td><td class="price">$300</td><td class="rec">★★★★★ ALWAYS BUY</td><td>Non-negotiable. No smoke = no execute.</td></tr>
+      <tr><td>Flashbang</td><td class="price">$200</td><td class="rec">★★★★☆ BUY 2</td><td>Flash yourself, flash teammates — it happens. Practice.</td></tr>
+      <tr><td>Molotov / Incendiary</td><td class="price">$400/$600</td><td class="rec">★★★★☆ VERY USEFUL</td><td>Force people off positions. Molotov ($400) on T-side is criminally underrated.</td></tr>
+      <tr><td>Defuse Kit</td><td class="price">$400</td><td class="rec">★★★★★ CT MUST BUY</td><td>5s defuse vs 10s. If you don't buy this you are griefing.</td></tr>
+      <tr><td>Galil AR</td><td class="price">$1800</td><td class="eco">★★★☆☆ ECO</td><td>Budget AK. Respectable force buy option.</td></tr>
+      <tr><td>FAMAS</td><td class="price">$2050</td><td class="eco">★★★☆☆ ECO</td><td>Budget M4. Burst mode only, and only if you've practiced.</td></tr>
+      <tr><td>MP9 / MAC-10</td><td class="price">$1250/$1050</td><td class="force">★★★☆☆ FORCE</td><td>Post-plant and eco. MAC-10 B rush on pistol rounds is a cultural staple.</td></tr>
+      <tr><td>Zeus x27 (Taser)</td><td class="price">$200</td><td class="force">★☆☆☆☆ MEME</td><td>Single charge. Melee range. Gets you killed. But the kill sound is worth it.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 5: WEAPONS TIER LIST ===== -->
+<div class="bg-section accent" id="weapons">
+<section>
+  <div class="section-header">
+    <div class="section-number">05</div>
+    <div>
+      <div class="section-title">WEAPON TIER LIST</div>
+      <div class="section-subtitle">Definitive. Inarguable. Final.</div>
+    </div>
+  </div>
+
+  <div class="tier-list">
+    <div class="tier-row">
+      <div class="tier-label tier-s">S</div>
+      <div class="tier-items">
+        <span class="tier-item">AK-47</span>
+        <span class="tier-item">AWP</span>
+        <span class="tier-item">M4A1-S</span>
+        <span class="tier-item">Desert Eagle</span>
+        <span class="tier-item">Smoke Grenade</span>
+      </div>
+    </div>
+    <div class="tier-row">
+      <div class="tier-label tier-a">A</div>
+      <div class="tier-items">
+        <span class="tier-item">M4A4</span>
+        <span class="tier-item">SG 553</span>
+        <span class="tier-item">AUG</span>
+        <span class="tier-item">USP-S</span>
+        <span class="tier-item">Glock-18</span>
+        <span class="tier-item">Molotov / Incendiary</span>
+        <span class="tier-item">HE Grenade</span>
+      </div>
+    </div>
+    <div class="tier-row">
+      <div class="tier-label tier-b">B</div>
+      <div class="tier-items">
+        <span class="tier-item">M4A1-S (pre-nerf)</span>
+        <span class="tier-item">Galil AR</span>
+        <span class="tier-item">FAMAS</span>
+        <span class="tier-item">MP9</span>
+        <span class="tier-item">MAC-10</span>
+        <span class="tier-item">Five-SeveN</span>
+        <span class="tier-item">Tec-9</span>
+        <span class="tier-item">Flashbang</span>
+      </div>
+    </div>
+    <div class="tier-row">
+      <div class="tier-label tier-c">C</div>
+      <div class="tier-items">
+        <span class="tier-item">SSG 08 (Scout)</span>
+        <span class="tier-item">P250</span>
+        <span class="tier-item">MP7</span>
+        <span class="tier-item">UMP-45</span>
+        <span class="tier-item">P90</span>
+        <span class="tier-item">FAMAS (burst)</span>
+      </div>
+    </div>
+    <div class="tier-row">
+      <div class="tier-label tier-d">D</div>
+      <div class="tier-items">
+        <span class="tier-item">M249</span>
+        <span class="tier-item">Negev</span>
+        <span class="tier-item">Mag-7</span>
+        <span class="tier-item">XM1014</span>
+        <span class="tier-item">Sawed-Off</span>
+        <span class="tier-item">Nova</span>
+        <span class="tier-item">G3SG1 / SCAR-20</span>
+      </div>
+    </div>
+    <div class="tier-row">
+      <div class="tier-label tier-f">F</div>
+      <div class="tier-items">
+        <span class="tier-item">Zeus x27 (in ranked)</span>
+        <span class="tier-item">Dual Berettas (for fun only)</span>
+        <span class="tier-item">CZ75-Auto (post-nerf)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-box" style="margin-top:24px">
+    <p>The <strong>Negev</strong> at close range after the 2018 buff was theoretically S-tier but nobody on EU servers will accept this and you will be vote-kicked for using it seriously.</p>
+  </div>
+</section>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 6: CROSSHAIRS ===== -->
+<div class="bg-section" id="crosshairs">
+<section>
+  <div class="section-header">
+    <div class="section-number">06</div>
+    <div>
+      <div class="section-title">CROSSHAIR COMPENDIUM</div>
+      <div class="section-subtitle">The most important pixels on your screen</div>
+    </div>
+  </div>
+
+  <div class="crosshair-grid">
+    <div class="crosshair-card">
+      <div class="crosshair-canvas">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <line x1="40" y1="26" x2="40" y2="35" stroke="#00ff41" stroke-width="2"/>
+          <line x1="40" y1="45" x2="40" y2="54" stroke="#00ff41" stroke-width="2"/>
+          <line x1="26" y1="40" x2="35" y2="40" stroke="#00ff41" stroke-width="2"/>
+          <line x1="45" y1="40" x2="54" y2="40" stroke="#00ff41" stroke-width="2"/>
+          <rect x="38" y="38" width="4" height="4" fill="#00ff41"/>
+        </svg>
+      </div>
+      <div class="ch-label">CLASSIC</div>
+      <div class="ch-desc">The default. Reliable. No excuses.</div>
+    </div>
+    <div class="crosshair-card">
+      <div class="crosshair-canvas">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <line x1="40" y1="28" x2="40" y2="37" stroke="#00ff41" stroke-width="2"/>
+          <line x1="40" y1="43" x2="40" y2="52" stroke="#00ff41" stroke-width="2"/>
+          <line x1="28" y1="40" x2="37" y2="40" stroke="#00ff41" stroke-width="2"/>
+          <line x1="43" y1="40" x2="52" y2="40" stroke="#00ff41" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="ch-label">NO DOT</div>
+      <div class="ch-desc">Popular in CS2. Clean sight lines.</div>
+    </div>
+    <div class="crosshair-card">
+      <div class="crosshair-canvas">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <rect x="38" y="38" width="4" height="4" fill="#00ff41"/>
+        </svg>
+      </div>
+      <div class="ch-label">DOT ONLY</div>
+      <div class="ch-desc">For the confident. Or delusional.</div>
+    </div>
+    <div class="crosshair-card">
+      <div class="crosshair-canvas">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <line x1="40" y1="20" x2="40" y2="60" stroke="#00ff41" stroke-width="1" opacity="0.3"/>
+          <line x1="20" y1="40" x2="60" y2="40" stroke="#00ff41" stroke-width="1" opacity="0.3"/>
+          <line x1="40" y1="30" x2="40" y2="37" stroke="#00ff41" stroke-width="2"/>
+          <line x1="40" y1="43" x2="40" y2="50" stroke="#00ff41" stroke-width="2"/>
+          <line x1="30" y1="40" x2="37" y2="40" stroke="#00ff41" stroke-width="2"/>
+          <line x1="43" y1="40" x2="50" y2="40" stroke="#00ff41" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="ch-label">T-SHAPED</div>
+      <div class="ch-desc">No top bar. Preferred by pro AWPers.</div>
+    </div>
+    <div class="crosshair-card">
+      <div class="crosshair-canvas">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <circle cx="40" cy="40" r="10" fill="none" stroke="#00ff41" stroke-width="1.5"/>
+          <rect x="38.5" y="38.5" width="3" height="3" fill="#00ff41"/>
+        </svg>
+      </div>
+      <div class="ch-label">CIRCLE + DOT</div>
+      <div class="ch-desc">Uncommon. Works for shotguns.</div>
+    </div>
+    <div class="crosshair-card">
+      <div class="crosshair-canvas">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <line x1="40" y1="24" x2="40" y2="36" stroke="#ff0000" stroke-width="2.5"/>
+          <line x1="40" y1="44" x2="40" y2="56" stroke="#ff0000" stroke-width="2.5"/>
+          <line x1="24" y1="40" x2="36" y2="40" stroke="#ff0000" stroke-width="2.5"/>
+          <line x1="44" y1="40" x2="56" y2="40" stroke="#ff0000" stroke-width="2.5"/>
+          <rect x="37" y="37" width="6" height="6" fill="#ff0000"/>
+        </svg>
+      </div>
+      <div class="ch-label">RED THICK</div>
+      <div class="ch-desc">High visibility. Aggressive playstyle.</div>
+    </div>
+  </div>
+
+  <div class="tip-box" style="margin-top:24px">
+    <p>The most important crosshair settings: <strong>cl_crosshairgap</strong> (spacing), <strong>cl_crosshairsize</strong> (arm length), <strong>cl_crosshairthickness</strong> (line width). Experiment in workshop maps only — never change crosshair mid-match.</p>
+  </div>
+</section>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 7: RANKS ===== -->
+<div class="bg-section accent" id="ranks">
+<section>
+  <div class="section-header">
+    <div class="section-number">07</div>
+    <div>
+      <div class="section-title">THE RANK HIERARCHY</div>
+      <div class="section-subtitle">From Silver shame to Global glory</div>
+    </div>
+  </div>
+
+  <div class="ranks-grid">
+    <div class="rank-card"><div class="rank-icon">🥄</div><div class="rank-name">Silver I</div><div class="rank-pct">~5% of players</div></div>
+    <div class="rank-card"><div class="rank-icon">🥄</div><div class="rank-name">Silver II</div><div class="rank-pct">~6%</div></div>
+    <div class="rank-card"><div class="rank-icon">🥄</div><div class="rank-name">Silver III</div><div class="rank-pct">~6%</div></div>
+    <div class="rank-card"><div class="rank-icon">🥄</div><div class="rank-name">Silver IV</div><div class="rank-pct">~7%</div></div>
+    <div class="rank-card"><div class="rank-icon">⭐</div><div class="rank-name">Silver Elite</div><div class="rank-pct">~8%</div></div>
+    <div class="rank-card"><div class="rank-icon">⭐</div><div class="rank-name">Silver Elite Master</div><div class="rank-pct">~8%</div></div>
+    <div class="rank-card"><div class="rank-icon">🥇</div><div class="rank-name">Gold Nova I</div><div class="rank-pct">~9%</div></div>
+    <div class="rank-card"><div class="rank-icon">🥇</div><div class="rank-name">Gold Nova II</div><div class="rank-pct">~9%</div></div>
+    <div class="rank-card"><div class="rank-icon">🥇</div><div class="rank-name">Gold Nova III</div><div class="rank-pct">~9%</div></div>
+    <div class="rank-card"><div class="rank-icon">🎖️</div><div class="rank-name">Gold Nova Master</div><div class="rank-pct">~8%</div></div>
+    <div class="rank-card"><div class="rank-icon">💎</div><div class="rank-name">Master Guardian I</div><div class="rank-pct">~7%</div></div>
+    <div class="rank-card"><div class="rank-icon">💎</div><div class="rank-name">Master Guardian II</div><div class="rank-pct">~5%</div></div>
+    <div class="rank-card"><div class="rank-icon">💎</div><div class="rank-name">MG Elite</div><div class="rank-pct">~4%</div></div>
+    <div class="rank-card"><div class="rank-icon">🦅</div><div class="rank-name">Distinguished MG</div><div class="rank-pct">~3%</div></div>
+    <div class="rank-card"><div class="rank-icon">🔱</div><div class="rank-name">Legendary Eagle</div><div class="rank-pct">~2.5%</div></div>
+    <div class="rank-card"><div class="rank-icon">🔱</div><div class="rank-name">LE Master</div><div class="rank-pct">~1.5%</div></div>
+    <div class="rank-card"><div class="rank-icon">👑</div><div class="rank-name">Supreme</div><div class="rank-pct">~1%</div></div>
+    <div class="rank-card"><div class="rank-icon">🌍</div><div class="rank-name">Global Elite</div><div class="rank-pct">~0.7%</div></div>
+  </div>
+
+  <div style="margin-top:32px;">
+    <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.15em;color:var(--orange);margin-bottom:16px;">RANK IMPROVEMENT ROADMAP</h3>
+    <div class="skill-bar"><div class="skill-bar-label"><span>Aim (raw mechanical skill)</span><span>TRAINABLE</span></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:85%"></div></div></div>
+    <div class="skill-bar"><div class="skill-bar-label"><span>Game sense & positioning</span><span>TAKES TIME</span></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:75%"></div></div></div>
+    <div class="skill-bar"><div class="skill-bar-label"><span>Grenade lineups (smokes/flashes)</span><span>MEMORIZATION</span></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:90%"></div></div></div>
+    <div class="skill-bar"><div class="skill-bar-label"><span>Communication & leadership</span><span>UNDERRATED</span></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:70%"></div></div></div>
+    <div class="skill-bar"><div class="skill-bar-label"><span>Mental fortitude (tilt control)</span><span>HARDEST SKILL</span></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:60%"></div></div></div>
+    <div class="skill-bar"><div class="skill-bar-label"><span>Economy management</span><span>LOGICAL</span></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:88%"></div></div></div>
+  </div>
+</section>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 8: MAP CALLOUTS ===== -->
+<div class="bg-section" id="callouts">
+<section>
+  <div class="section-header">
+    <div class="section-number">08</div>
+    <div>
+      <div class="section-title">MAP CALLOUT GLOSSARY</div>
+      <div class="section-subtitle">Universal language across all EU lobbies</div>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-icon">💣</span>
+      <h3>DE_DUST2 — Eternal Classic</h3>
+      <ul>
+        <li><strong>Long A / Long</strong> — The long corridor to A site</li>
+        <li><strong>Catwalk / Cat</strong> — Elevated walkway mid</li>
+        <li><strong>Mid / Mid Doors</strong> — Center of the map</li>
+        <li><strong>B Tunnels / Tunnels</strong> — T-side B approach</li>
+        <li><strong>CT Spawn / CT</strong> — Counter-Terrorist base</li>
+        <li><strong>Short A / Short</strong> — Short approach to A</li>
+        <li><strong>Upper / Lower Tunnels</strong> — B route split</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="card-icon">🏭</span>
+      <h3>DE_MIRAGE — The Standard</h3>
+      <ul>
+        <li><strong>A Ramp</strong> — Main T-side A approach</li>
+        <li><strong>Palace</strong> — Elevated A side building</li>
+        <li><strong>Mid / Window</strong> — Central control point</li>
+        <li><strong>B Apps / Apartments</strong> — T-side B route</li>
+        <li><strong>Van / Bench</strong> — B site cover positions</li>
+        <li><strong>Ticket Booth</strong> — Mid CT control</li>
+        <li><strong>Short / B Short</strong> — CT-side B anchor</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="card-icon">🌊</span>
+      <h3>DE_INFERNO — The Chokepoint</h3>
+      <ul>
+        <li><strong>Banana</strong> — Curved path to B site</li>
+        <li><strong>Apartments / Apps</strong> — T-side A route</li>
+        <li><strong>Arch</strong> — Entry to A site</li>
+        <li><strong>Library</strong> — CT-side A boost spot</li>
+        <li><strong>Car / Dark</strong> — B site cover</li>
+        <li><strong>Pit</strong> — Sunken position on A</li>
+        <li><strong>Second Mid</strong> — Connector area</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="card-icon">🌅</span>
+      <h3>DE_NUKE — Vertical Combat</h3>
+      <ul>
+        <li><strong>Outside / Silo</strong> — T spawn approach</li>
+        <li><strong>Upper Site / Upper</strong> — Main bomb site floor</li>
+        <li><strong>Lower Site / Lower</strong> — Underground site</li>
+        <li><strong>Ramp / Ramproom</strong> — Site connector</li>
+        <li><strong>Heaven</strong> — CT elevated position</li>
+        <li><strong>Lobby</strong> — CT entry to upper</li>
+        <li><strong>Squeaky</strong> — Loud door rotation</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="card-icon">🏔️</span>
+      <h3>DE_OVERPASS — The Complex One</h3>
+      <ul>
+        <li><strong>Bathrooms (Toilets) / Long</strong> — Main A site approaches and route structures</li>
+        <li><strong>Bank / Bins / Site</strong> — B bomb site defensive structures</li>
+        <li><strong>Monster</strong> — Tunnel under the bridge</li>
+        <li><strong>Connector</strong> — Mid link between sites</li>
+        <li><strong>Playground</strong> — Elevated mid area</li>
+        <li><strong>Party / Heaven</strong> — Elevated B positions</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="card-icon">🏛️</span>
+      <h3>DE_ANCIENT — The New Classic</h3>
+      <ul>
+        <li><strong>Temple / T-Mid</strong> — Central T area</li>
+        <li><strong>Cave / Tunnel</strong> — B site approach</li>
+        <li><strong>Donut</strong> — Circular mid structure</li>
+        <li><strong>Ramp</strong> — A site entry ramp</li>
+        <li><strong>Water</strong> — B site corner</li>
+        <li><strong>House</strong> — A side building</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===== SECTION 9: TIPS ===== -->
+<div class="bg-section accent" id="tips">
+<section>
+  <div class="section-header">
+    <div class="section-number">09</div>
+    <div>
+      <div class="section-title">ADVANCED PRO TIPS</div>
+      <div class="section-subtitle">From beginner to EU server legend</div>
+    </div>
+  </div>
+
+  <div class="card-grid" style="margin-bottom:32px;">
+    <div class="card">
+      <span class="card-icon">🖱️</span>
+      <h3>AIM TRAINING ROUTINE</h3>
+      <ul>
+        <li>15 min Aim Lab / KovaaK's daily</li>
+        <li>10 min deathmatch on community servers</li>
+        <li>Practice spray control on training maps</li>
+        <li>AK-47 spray: pull down, then slightly right</li>
+        <li>Burst fire at medium range — don't spray</li>
+        <li>Crouch-stop for tighter accuracy windows</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="card-icon">🎧</span>
+      <h3>AUDIO & SETTINGS</h3>
+      <ul>
+        <li>HRTF on in CS2 for directional audio</li>
+        <li>Volume: 0.5–0.7, not max</li>
+        <li>Listen for footsteps before peeking</li>
+        <li>Bomb plant sound = 3 seconds to defuse</li>
+        <li>Reload sound = peek them immediately</li>
+        <li>Use headphones, not speakers. Always.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="card-icon">📐</span>
+      <h3>MOVEMENT TECH</h3>
+      <ul>
+        <li>Counter-strafe before shooting (A+D tap)</li>
+        <li>Walk (Shift) to avoid sound detection</li>
+        <li>Bunny hop for speed (CS:GO legacy)</li>
+        <li>Jump-peek corners to gather info safely</li>
+        <li>Crouch-peeks expose a smaller hitbox</li>
+        <li>Never run while shooting long range</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="card-icon">🧠</span>
+      <h3>GAME SENSE</h3>
+      <ul>
+        <li>Always track enemy count vs. time remaining</li>
+        <li>If 4 enemies are on A — rotate immediately</li>
+        <li>Utility first on executes, entry after</li>
+        <li>Watch the mini-map constantly</li>
+        <li>Play slower when you have numbers advantage</li>
+        <li>Learn one map deeply before learning another</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="card-icon">🌍</span>
+      <h3>EU SERVER ETIQUETTE</h3>
+      <ul>
+        <li>Speak English — it's the common ground</li>
+        <li>Know at least 5 Russian callout words</li>
+        <li>Never mute your team unless actively toxic</li>
+        <li>Give info even if you're dead — use chat</li>
+        <li>Don't tk over a bad flash — it happens</li>
+        <li>GG at end of match, always</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="card-icon">⚙️</span>
+      <h3>CONSOLE COMMANDS</h3>
+      <ul>
+        <li><code>cl_crosshairgap -3</code> — tighter crosshair</li>
+        <li><code>fps_max 0</code> — uncap framerate</li>
+        <li><code>cl_hud_telemetry_serverrate_show 2</code> — trace frame timing and packet loss in CS2</li>
+        <li><code>cq_netgraph 1</code> — display sub-tick network graphs</li>
+        <li><code>voice_scale 0.3</code> — lower voice volume</li>
+        <li><code>bind mwheeldown +jump</code> — scroll to jump (bhop)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- EU PLAYER ARCHETYPE DETECTOR -->
+  <div style="
+    background: linear-gradient(135deg, #040010, #0a0400);
+    border: 2px solid #2a0060;
+    padding: 36px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin: 32px 0;
+  ">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%, rgba(138,0,255,0.12) 0%, transparent 70%);pointer-events:none;"></div>
+    <div style="font-family:'Permanent Marker',cursive;font-size:clamp(1.6rem,4vw,2.8rem);color:#cc44ff;text-shadow:3px 3px 0 #6600aa,0 0 40px rgba(180,0,255,0.4);position:relative;z-index:1;margin-bottom:8px;">🔮 EU SERVER ARCHETYPE DETECTOR 🔮</div>
+    <div style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#7733aa;letter-spacing:0.2em;position:relative;z-index:1;margin-bottom:28px;">ANSWER 3 QUESTIONS. DISCOVER YOUR TRUE FORM.</div>
+
+    <div id="archetype-quiz" style="position:relative;z-index:1;max-width:600px;margin:0 auto;">
+      <!-- Question 1 -->
+      <div id="aq-1" class="archetype-step">
+        <div style="font-family:'Russo One',sans-serif;font-size:1rem;color:#ddd;margin-bottom:18px;">It's round 15. Score is 7-7. Your team is silent. You:</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <button class="aq-btn" onclick="archetypeAnswer(1,'fragger')" data-q="1">🔫 Instantly push long A alone. No info. Pure vibes.</button>
+          <button class="aq-btn" onclick="archetypeAnswer(1,'igl')" data-q="1">📢 Type a 3-step strat in chat nobody will follow.</button>
+          <button class="aq-btn" onclick="archetypeAnswer(1,'awper')" data-q="1">🎯 Find the best angle and wait. Patiently. Forever.</button>
+          <button class="aq-btn" onclick="archetypeAnswer(1,'support')" data-q="1">💨 Throw a smoke nobody asked for, just in case.</button>
+        </div>
+      </div>
+
+      <!-- Question 2 -->
+      <div id="aq-2" class="archetype-step" style="display:none;">
+        <div style="font-family:'Russo One',sans-serif;font-size:1rem;color:#ddd;margin-bottom:18px;">A Russian teammate says something in chat. You:</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <button class="aq-btn" onclick="archetypeAnswer(2,'fragger')" data-q="2">🤷 Type "?" and rush anyway.</button>
+          <button class="aq-btn" onclick="archetypeAnswer(2,'igl')" data-q="2">📖 Google Translate the entire message. Takes 45 seconds.</button>
+          <button class="aq-btn" onclick="archetypeAnswer(2,'awper')" data-q="2">🫡 Type "Понял" and mean it completely.</button>
+          <button class="aq-btn" onclick="archetypeAnswer(2,'support')" data-q="2">❤️ React with a thumbs up. Communication is vibes.</button>
+        </div>
+      </div>
+
+      <!-- Question 3 -->
+      <div id="aq-3" class="archetype-step" style="display:none;">
+        <div style="font-family:'Russo One',sans-serif;font-size:1rem;color:#ddd;margin-bottom:18px;">You're the last alive, 1v2, bomb planted. You:</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <button class="aq-btn" onclick="archetypeAnswer(3,'fragger')" data-q="3">💀 Peek both simultaneously. Hero or zero. No third option.</button>
+          <button class="aq-btn" onclick="archetypeAnswer(3,'igl')" data-q="3">📊 Calculate the math, execute the perfect play, win.</button>
+          <button class="aq-btn" onclick="archetypeAnswer(3,'awper')" data-q="3">🔭 Find a corner, hold the defuse, one-tap the rush.</button>
+          <button class="aq-btn" onclick="archetypeAnswer(3,'support')" data-q="3">🙏 Try to defuse anyway. Maybe they miss. Maybe.</button>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div id="aq-result" style="display:none;"></div>
+    </div>
+  </div>
+
+  <style>
+  .archetype-step { animation: fadeIn 0.4s ease; }
+  .aq-btn {
+    background: rgba(138,0,255,0.06);
+    border: 1px solid #330055;
+    color: #bbb;
+    padding: 12px 18px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+    line-height: 1.4;
+  }
+  .aq-btn:hover { border-color: #cc44ff; color: #fff; background: rgba(138,0,255,0.15); transform: translateX(4px); }
+  </style>
+
+  <script>
+  const archetypeScores = { fragger:0, igl:0, awper:0, support:0 };
+  const archetypeResults = {
+    fragger: {
+      title: "🔫 THE ENTRY FRAGGER",
+      subtitle: "БЕГИ ВПЕРЁД — Run Forward",
+      color: "#ff4444",
+      desc: "You are the engine. You die first, you die often, and you die beautifully. Your K/D ratio is a lie — your impact rating is not. Russian teammates love you because you make noise and space. They will follow you into Long A at 3am with zero utility. This is your destiny.",
+      ru: "Иди вперёд, братан. Always.",
+      tips: ["Flashbang first, peek second", "Tell your team BEFORE you push", "Learn spray control for AK-47", "Your job is info AND frags"]
+    },
+    igl: {
+      title: "📢 THE IN-GAME LEADER",
+      subtitle: "ТАКТИК — The Tactician",
+      color: "#ffaa00",
+      desc: "You have a plan. The plan is perfect. Nobody will follow the plan. You will adapt, create a new plan, and somehow your chaotic team will clutch a 1v3 completely by accident. You think it was your strat. It was luck. You're still right.",
+      ru: "Всё по плану. (Everything according to plan.)",
+      tips: ["Call utility BEFORE the round starts", "Keep calls short — 3 words max", "Learn when to default vs execute", "Learn 'Все идём А' — Everyone go A"]
+    },
+    awper: {
+      title: "🎯 THE AWPer",
+      subtitle: "СНАЙПЕР — The Sniper",
+      color: "#00cfff",
+      desc: "You are the eye of god. One shot, one kill, one $4750 mistake if you miss. On EU servers you are feared, respected, and occasionally yelled at in Russian for holding the wrong angle. You know the truth: every angle is the right angle if you have enough patience.",
+      ru: "Снайпер на мид. They will listen.",
+      tips: ["Never hold the same angle twice", "Have a pistol ready — always", "Drop the AWP before eco rounds", "Learn 'Я прикрываю' — I'm covering"]
+    },
+    support: {
+      title: "💨 THE SUPPORT",
+      subtitle: "ПОДДЕРЖКА — The Foundation",
+      color: "#00ff41",
+      desc: "You are invisible and essential. You threw smokes nobody asked for and they saved the round. You flashed your fragger into a perfect entry. You dropped the rifle to a broke teammate and bought yourself a P250. EU servers would crumble without you. Nobody will notice. You are okay with this.",
+      ru: "Я прикрою. (I'll cover.) The most powerful words.",
+      tips: ["Learn 5 smoke lineups per map", "Always buy a defuse kit as CT", "Track your teammates' economy", "Learn 'Дым!' before every execute"]
+    }
+  };
+
+  function archetypeAnswer(q, type) {
+    archetypeScores[type]++;
+    document.getElementById('aq-' + q).style.display = 'none';
+    if (q < 3) {
+      document.getElementById('aq-' + (q+1)).style.display = 'block';
+    } else {
+      showArchetypeResult();
+    }
+  }
+
+  function showArchetypeResult() {
+    const winner = Object.entries(archetypeScores).sort((a,b) => b[1]-a[1])[0][0];
+    const r = archetypeResults[winner];
+    const el = document.getElementById('aq-result');
+    el.style.display = 'block';
+    el.style.animation = 'fadeIn 0.5s ease';
+    el.innerHTML = `
+      <div style="border:2px solid ${r.color};background:rgba(0,0,0,0.4);padding:28px;text-align:center;">
+        <div style="font-family:'Black Ops One',sans-serif;font-size:clamp(1.4rem,4vw,2.2rem);color:${r.color};text-shadow:0 0 20px ${r.color}66;margin-bottom:4px;">${r.title}</div>
+        <div style="font-family:'Bebas Neue',sans-serif;letter-spacing:0.3em;font-size:1rem;color:#888;margin-bottom:16px;">${r.subtitle}</div>
+        <p style="font-family:'Share Tech Mono',monospace;font-size:0.82rem;color:#bbb;line-height:1.7;margin-bottom:16px;">${r.desc}</p>
+        <div style="font-family:'Permanent Marker',cursive;font-size:1.2rem;color:${r.color};margin-bottom:20px;">"${r.ru}"</div>
+        <div style="text-align:left;border-top:1px solid #222;padding-top:16px;">
+          <div style="font-family:'Bebas Neue',sans-serif;letter-spacing:0.15em;color:#555;font-size:0.8rem;margin-bottom:8px;">YOUR PERSONAL TIPS:</div>
+          ${r.tips.map(t => `<div style="font-size:0.78rem;color:#888;font-family:'Share Tech Mono',monospace;padding:4px 0;">► ${t}</div>`).join('')}
+        </div>
+        <button onclick="resetArchetype()" style="margin-top:20px;padding:10px 24px;border:1px solid #444;background:transparent;color:#666;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='${r.color}';this.style.color='${r.color}'" onmouseout="this.style.borderColor='#444';this.style.color='#666'">PLAY AGAIN</button>
+      </div>
+    `;
+  }
+
+  function resetArchetype() {
+    archetypeScores.fragger = archetypeScores.igl = archetypeScores.awper = archetypeScores.support = 0;
+    document.getElementById('aq-result').style.display = 'none';
+    for(let i=1;i<=3;i++) {
+      const el = document.getElementById('aq-'+i);
+      el.style.display = i===1 ? 'block' : 'none';
+    }
+  }
+  </script>
+
+  <div class="quote-block" style="margin-top:32px;">
+    "The enemies heard you running. The enemies heard your reload. The enemies heard you crouch. The enemy is not cheating. You are just loud."
+    <cite>— Old CS adage, every EU server, every rank</cite>
+  </div>
+
+  <div class="danger-box">
+    <p>Playing on EU servers after midnight CET is a completely different experience. The average player transforms. Communication breaks down. Wild strategies emerge. It is simultaneously the worst and best CS you will ever play. Proceed with an open mind.</p>
+  </div>
+
+  <div class="tip-box">
+    <p>The single highest-impact thing you can do to improve your rank: <strong>play fewer matches per day.</strong> Quality over quantity. Two focused matches beat six tilted ones every time. The EU grind respects discipline.</p>
+  </div>
+</section>
+</div>
+
+<!-- MARQUEE BOTTOM -->
+<div class="marquee-wrap">
+  <div class="marquee-inner" style="animation-direction:reverse;">
+    ★ GG EZ &nbsp;&nbsp;&nbsp; ★ ПОНЯЛ &nbsp;&nbsp;&nbsp; ★ МОЛОДЕЦ &nbsp;&nbsp;&nbsp; ★ БОМБА ПОСАЖЕНА &nbsp;&nbsp;&nbsp; ★ ДЕФУЗД &nbsp;&nbsp;&nbsp; ★ ACE &nbsp;&nbsp;&nbsp; ★ CLUTCH &nbsp;&nbsp;&nbsp; ★ HEADSHOT &nbsp;&nbsp;&nbsp; ★ ДАВАЙ ДАВАЙ &nbsp;&nbsp;&nbsp; ★ РЭШ Б &nbsp;&nbsp;&nbsp; ★ КРАСИВО &nbsp;&nbsp;&nbsp; ★ ЧИТЕР &nbsp;&nbsp;&nbsp; ★ ТАЩИТЬ &nbsp;&nbsp;&nbsp; ★ ХЭДШОТ &nbsp;&nbsp;&nbsp; ★ УДАЧИ &nbsp;&nbsp;&nbsp; ★ СПАСИБО &nbsp;&nbsp;&nbsp; ★ ГОТОВ &nbsp;&nbsp;&nbsp; ★ ВСЁ НОРМАЛЬНО &nbsp;&nbsp;&nbsp; ★ GG EZ &nbsp;&nbsp;&nbsp; ★ ПОНЯЛ &nbsp;&nbsp;&nbsp; ★ МОЛОДЕЦ &nbsp;&nbsp;&nbsp; ★ БОМБА ПОСАЖЕНА &nbsp;&nbsp;&nbsp; ★ ДЕФУЗД &nbsp;&nbsp;&nbsp; ★ ACE &nbsp;&nbsp;&nbsp; ★ CLUTCH &nbsp;&nbsp;&nbsp; ★ HEADSHOT &nbsp;&nbsp;&nbsp; ★ ДАВАЙ ДАВАЙ &nbsp;&nbsp;&nbsp; ★ КРАСИВО &nbsp;&nbsp;&nbsp; ★ ТАЩИТЬ &nbsp;&nbsp;&nbsp;
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-title">THE COUNTER-STRIKE EU BIBLE</div>
+  <p style="margin-bottom:8px;">Covering CS 1.6 · CS:S · CS:GO · CS2 · CS:CZ · CS Nexon Studio</p>
+  <p style="color:#222;">Made with love, 1ms fiber ping, and the memory of every dropped AWP.</p>
+  <p style="margin-top:16px;font-size:0.6rem;color:#1a1a1a;">This guide is not affiliated with Valve Corporation, Nexon, or any CS franchise. All information is for educational and in-game survival purposes. Играй хорошо.</p>
+</footer>
+
+</body>
+</html>
